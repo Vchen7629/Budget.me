@@ -1,13 +1,19 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
+from mongoDB import Database
+
 app = Flask("budgetDatabase")
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+databaseInstance = Database()
+
 @app.route('/H', methods=['GET'])
 def returnYippee():
-    return 'Yippee'
+    # databaseInstance.createDB("user0")
+    databaseInstance.addPDF("user0")
+    return "yippee"
 
 @app.route('/viewData', methods=['GET'])
 def returnData():

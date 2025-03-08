@@ -16,10 +16,10 @@ def parsePDF(file):
     filepath = pathlib.Path(file)
 
     prompt = '''parse the following bank statement pdf to make a CSV of date (formated DD-MM-YYYY), 
-    description, withdrawal/deposit amount (marking withdrawals with -), balance, and an inference of whether 
+    description, withdrawal/deposit amount (positive/negative floats for deposit/withdrawal), and an inference of whether 
     or not it is a required expenditure (TRUE/FALSE if withdrawal, NULL if deposit)
     (do not include if the row does not have a withdrawal/deposit, remove the commas
-    on the transaction and balance numbers) .
+    on the transaction and balance numbers). Do not include the fields as a row. 
     '''
     response = client.models.generate_content(
     model="gemini-2.0-flash",
@@ -32,10 +32,15 @@ def parsePDF(file):
 
     pdfData = []
 
-    for i in response.text.splitlines()[3:-1]:
-        pdfData.append(i.split(","))
+    for i in response.text.splitlines()[2:-1]:
+        splitData = i.split(",")
+        pdfData.append({
+                "date": splitData[0],
+                "description": splitData[1],
+                "amount": float(splitData[2]),
+                "required": bool(splitData[3])
+        })
     return pdfData
 
-# allRows = parsePDF("BankStatements.pdf")
-# for i in allRows:
-#     print(i)
+for i in parsePDF("BankStatements.pdf"):
+    print(i)
