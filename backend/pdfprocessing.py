@@ -42,6 +42,9 @@ def importPDF():
         cursor.close()
         connection.close()
         print("SQLite connection closed")
+
+def newRow(date, description, amount, balance, required):
+     return
 createDatabase()
 importPDF()
 

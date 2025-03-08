@@ -1,10 +1,16 @@
 from flask import Flask, jsonify, request
 
+from mongoDB import Database
+
 app = Flask("budgetDatabase")
+
+databaseInstance = Database()
 
 @app.route('/H', methods=['GET'])
 def returnYippee():
-    return 'Yippee'
+    # databaseInstance.createDB("user0")
+    databaseInstance.addPDF("user0")
+    return "yippee"
 
 @app.route('/viewData', methods=['GET'])
 def returnData():
