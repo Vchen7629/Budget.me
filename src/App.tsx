@@ -48,9 +48,10 @@ function App() {
 
 export default () => (
   <Auth0Provider
-    domain={envConfig.domain}
-    clientId={envConfig.clientId}
-    redirectUri={window.location.origin}
+	{...envConfig}
+	  authorizationParams={{
+		  redirect_uri: "http://localhost:5173"
+	  }}
   >
     <App />
   </Auth0Provider>
