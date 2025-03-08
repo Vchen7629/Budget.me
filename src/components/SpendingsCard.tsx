@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 const SpendingsCard: React.FC = () => {
   const [spendingValue, setSpendingValue] = useState("");
+	const [disabled, setDisabled] = useState(false);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -14,7 +15,21 @@ const SpendingsCard: React.FC = () => {
   }
 
   function handleAddNewIncome() {
-    toast.success("Successfully added new spending source")
+		// Prevent spam-clicking
+		setDisabled(true);
+		setTimeout(() => {
+			setDisabled(false);
+		}, 500);
+
+		if (isNaN(spendingValue)) {
+			toast.error("Please enter a numerical value");
+		} else if (spendingValue <= 0) {
+			toast.error("Please enter a positive value");
+		} else {
+			// TODO: Add actual server data
+			toast.success("Successfully added new spending source")
+			setSpendingValue("");
+		}
   }
 
   
@@ -34,7 +49,7 @@ const SpendingsCard: React.FC = () => {
         </div>  
         <div className="flex justify-between space-x-2">
           <Input value={spendingValue} onChange={handleInputChange} type="amount" placeholder="Enter a new spending source" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
-          <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
+          <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg' disabled={disabled}>
             <Plus className='text-white'/>
           </button>
         </div>
