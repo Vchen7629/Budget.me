@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 const IncomeCard: React.FC = () => {
   const [incomeValue, setIncomeValue] = useState("");
+	const [disabled, setDisabled] = useState(false);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -14,7 +15,21 @@ const IncomeCard: React.FC = () => {
   }
 
   function handleAddNewIncome() {
-    toast.success("Successfully added new income stream")
+		// Prevent spam-clicking
+		setDisabled(true);
+		setTimeout(() => {
+			setDisabled(false);
+		}, 500);
+
+		if (isNaN(incomeValue) || incomeValue == "") {
+			toast.error("Please enter a numerical value");
+		} else if (incomeValue <= 0) {
+			toast.error("Please enter a positive value");
+		} else {
+			// TODO: Add actual server data
+			toast.success("Successfully added new income source")
+			setIncomeValue("");
+		}
   }
 
   

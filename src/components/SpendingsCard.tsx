@@ -21,7 +21,7 @@ const SpendingsCard: React.FC = () => {
 			setDisabled(false);
 		}, 500);
 
-		if (isNaN(spendingValue)) {
+		if (isNaN(spendingValue) || spendingValue == "") {
 			toast.error("Please enter a numerical value");
 		} else if (spendingValue <= 0) {
 			toast.error("Please enter a positive value");
