@@ -1,0 +1,93 @@
+"use client"
+ 
+import * as React from "react"
+import { Check, ChevronsUpDown } from "lucide-react"
+ 
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+ 
+const frameworks = [
+  {
+    value: "hour",
+    label: "hour",
+  },
+  {
+    value: "day",
+    label: "day",
+  },
+  {
+    value: "week",
+    label: "week",
+  },
+  {
+    value: "month",
+    label: "month",
+  },
+  {
+    value: "year",
+    label: "year",
+  },
+]
+ 
+export function PeriodDropdownComponent() {
+  const [open, setOpen] = React.useState(false)
+  const [value, setValue] = React.useState("")
+ 
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[7vw] justify-between border-2 border-gray-400"
+        >
+          {value
+            ? frameworks.find((framework) => framework.value === value)?.label
+            : "Period"}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 text-blue-600 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[7vw] p-0">
+        <Command>
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue)
+                    setOpen(false)
+                  }}
+                  className="opacity-100 bg-white hover:bg-white "
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {framework.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  )
+}
