@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
+import { LucideLogIn } from 'lucide-react';
 import StockList from '../components/StockList';
 import PortfolioSummary from '../components/PortfolioSummary';
 import NewsPanel from '../components/NewsPanel';
 import GameControls from '../components/GameControls';
 import MarketOverview from '../components/MarketOverview';
 import { Volume, Volume1Icon, Volume2Icon, VolumeXIcon } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const BudgetPage = () => {
     const [isGameStarted, _] = useState(false);
     const [volume, setVolume] = useState(1);
+    const navigate = useNavigate()
     const audioRef = useRef<HTMLAudioElement | null>(null); 
 
     // Automatically start the music when the game starts
@@ -31,16 +34,26 @@ const BudgetPage = () => {
         audioRef.current.volume = volume; // Set volume
         }
     }, [volume]);
+
+    function navigateLogin() {
+      navigate("/login")
+    }
     
     return (
       <div className="min-h-screen bg-gray-100">
         <header className="bg-blue-600 text-white shadow-md">
-          <div className="container mx-auto px-4 py-4">
-            <h1 className="text-2xl font-bold">Market Mayhem</h1>
+          <div className="container flex justify-between mx-auto px-4 py-4">
+            <h1 className="text-2xl font-bold">Budget App</h1>
+            <div className='flex space-x-2'>
+              <button onClick={navigateLogin} className='flex items-center space-x-1 bg-blue-500 rounded-lg p-2 shadow-lg'>
+                <LucideLogIn/>
+                <h1>Login</h1>
+              </button>
+            </div>
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-6">
+        <main className="container mx-auto h-[80vh] px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <GameControls />
