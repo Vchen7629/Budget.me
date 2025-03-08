@@ -5,14 +5,25 @@ import Recommendations from '../components/Recommendations';
 import BalanceCard from '../components/BalanceCard';
 import GraphCard from '../components/GraphCard';
 import SpendingsCard from '../components/SpendingsCard';
+import { useNavigate } from 'react-router';
+import { LucideLogIn } from 'lucide-react';
 
 const Homepage = () => {
+    const navigate = useNavigate();
+
+    function navigateLogin() {
+      navigate("/login")
+    }
     return (
       <div className="min-h-screen bg-gray-100">
-        <header className="bg-blue-600 text-white shadow-md">
+        <header className="flex items-center px-[2vw] justify-between bg-blue-600 text-white shadow-md">
           <div className="container mx-auto px-4 py-4">
             <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
           </div>
+          <button onClick={navigateLogin} className="flex bg-blue-550 p-2 h-fit  items-center border-2 border-white space-x-2 rounded-lg shadow-md">
+            <h1>Login</h1>
+            <LucideLogIn />
+          </button>
         </header>
 
         <main className="container mx-auto px-4 py-6">
