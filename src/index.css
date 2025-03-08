@@ -2,3 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.filepond--root {
+    display: flex;
+    width: 30vw;
+    height: 15vh;
+    margin-top: 2vh;
+}
+
+.filepond--panel-root {
+    background-color: white;
+}

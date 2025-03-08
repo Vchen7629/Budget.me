@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function AuthCard() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-  const [showLogin, setShowLogin] = useState(!isAuthenticated);
+  const [_, setShowLogin] = useState(!isAuthenticated);
 
   const handleLogin = () => {
     loginWithRedirect();
@@ -16,12 +16,12 @@ function AuthCard() {
 
   return (<div>
       {isAuthenticated ? (
-        <>
-          <p>Logged in as {user.name}</p>
-          <button onClick={handleLogout}>Logout</button>
-        </>
+        <div className='flex w-full space-x-[2vw] '>
+          <p className='text-center'>Logged in as {user.name}</p>
+          <button className="bg-blue-500 px-4 py-2 rounded-lg border-2 focus:outline-none shadow-lg" onClick={handleLogout}>Logout</button>
+        </div>
       ) : (
-        <button onClick={handleLogin}>Login</button>
+        <button className="bg-blue-500 px-4 py-2 rounded-lg border-2 focus:outline-none shadow-lg" onClick={handleLogin}>Login</button>
       )
 	  }
     </div>)
