@@ -1,10 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import IncomeCard from '../components/IncomeCard';
+import InputCard from '../components/InputCard';
 import GoalDisplay from '../components/GoalDisplay';
 import Recommendations from '../components/Recommendations';
 import BalanceCard from '../components/BalanceCard';
 import GraphCard from '../components/GraphCard';
-import SpendingsCard from '../components/SpendingsCard';
 import AuthCard from "../components/AuthCard.tsx";
 import { useNavigate } from 'react-router';
 import { Toaster } from "@/components/ui/sonner"
@@ -30,8 +29,8 @@ const Homepage = () => {
             <div className="lg:col-span-2 space-y-6">
               <GraphCard />
               <BalanceCard />
-              <IncomeCard />
-              <SpendingsCard />
+              <InputCard cardName="Add New Income" placeholder="Enter a new income stream" successMessage="Successfully added new income source"/>
+              <InputCard cardName="Add New Spending" placeholder="Enter a new spending source" successMessage="Successfully added new spending source"/>
             </div>
 
           {/* right side menu on pc */}
