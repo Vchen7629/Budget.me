@@ -9,6 +9,7 @@ import AuthCard from "../components/AuthCard.tsx";
 import { useNavigate } from 'react-router';
 import { LucideLogIn } from 'lucide-react';
 import { Toaster } from "@/components/ui/sonner"
+import PdfDropZone from '@/components/PdfDropZone.tsx';
 
 const Homepage = () => {
     const navigate = useNavigate();
@@ -22,14 +23,10 @@ const Homepage = () => {
         <header className="flex items-center px-[2vw] justify-between bg-blue-600 text-white shadow-md">
           <div className="container mx-auto px-4 py-4">
             <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
-		  <div className="float-right">
-			<AuthCard />
-		  </div>
           </div>
-          <button onClick={navigateLogin} className="flex bg-blue-550 p-2 h-fit  items-center border-2 border-white space-x-2 rounded-md shadow-md">
-            <h1>Login</h1>
-            <LucideLogIn />
-          </button>
+          <div className="flex">
+            <AuthCard />
+          </div>
         </header>
 
         <main className="container mx-auto px-4 py-6">
@@ -45,6 +42,7 @@ const Homepage = () => {
 
           {/* right side menu on pc */}
             <div className="space-y-6">
+              <PdfDropZone />
               <GoalDisplay />
               <Recommendations />
             </div>
