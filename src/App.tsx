@@ -13,6 +13,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(!isAuthenticated);
 
   const handleLogin = () => {
+	  console.log("handleLogin entered!");
     loginWithRedirect();
   };
 
@@ -33,7 +34,6 @@ function App() {
         <>
           <p>Logged in as {user.name}</p>
           <button onClick={handleLogout}>Logout</button>
-          <TodoList />
         </>
       ) : (
         <button onClick={handleLogin}>Login</button>
