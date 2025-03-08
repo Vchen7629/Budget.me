@@ -7,15 +7,11 @@ import GraphCard from '../components/GraphCard';
 import SpendingsCard from '../components/SpendingsCard';
 import AuthCard from "../components/AuthCard.tsx";
 import { useNavigate } from 'react-router';
-import { LucideLogIn } from 'lucide-react';
 import { Toaster } from "@/components/ui/sonner"
 
 const Homepage = () => {
     const navigate = useNavigate();
 
-    function navigateLogin() {
-      navigate("/login")
-    }
     return (
       <div className="min-h-screen bg-gray-100">
                 <Toaster richColors expand={true} className='z-50'/>
@@ -24,9 +20,7 @@ const Homepage = () => {
           <div className="container mx-auto px-4 py-4">
             <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
           </div>
-          <button onClick={navigateLogin} className="flex bg-blue-550 p-2 h-fit  items-center border-2 border-white space-x-2 rounded-md shadow-md">
 						<AuthCard />
-          </button>
         </header>
 
         <main className="container mx-auto px-4 py-6">
