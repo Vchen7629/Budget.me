@@ -18,8 +18,7 @@ const Homepage = () => {
     }
     return (
       <div className="min-h-screen bg-gray-100">
-                <Toaster richColors expand={true} className='z-50'/>
-
+        <Toaster richColors expand={true} className='z-50'/>
         <header className="flex items-center px-[2vw] justify-between bg-blue-600 text-white shadow-md">
           <div className="container mx-auto px-4 py-4">
             <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
