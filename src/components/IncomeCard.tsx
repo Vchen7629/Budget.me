@@ -37,7 +37,7 @@ const IncomeCard: React.FC = () => {
         <div className="flex justify-between space-x-2">
           <Input value={incomeValue} onChange={handleInputChange} type="amount" placeholder="Enter a new income stream" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
           <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
-            <Plus className='text-white'/>
+            <Plus className='text-white w-4'/>
           </button>
         </div>
       </div>
