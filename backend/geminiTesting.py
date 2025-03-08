@@ -42,5 +42,5 @@ def parsePDF(file):
         })
     return pdfData
 
-for i in parsePDF("BankStatements.pdf"):
-    print(i)
+# for i in parsePDF("BankStatements.pdf"):
+#     print(i)
