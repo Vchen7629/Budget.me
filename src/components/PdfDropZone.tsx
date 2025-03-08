@@ -10,7 +10,7 @@ const PdfDropZone = () => {
           <FilePond 
             allowMultiple={true}
             acceptedFileTypes={['application/pdf']}
-            server="/api/upload" // your server endpoint
+            server="http://127.0.0.1:5000/parsePDF"  
             labelIdle='Drag & Drop your PDF or <span class="filepond--label-action">Browse</span>'
           />
         </div>
