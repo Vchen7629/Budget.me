@@ -5,6 +5,7 @@ import Recommendations from '../components/Recommendations';
 import BalanceCard from '../components/BalanceCard';
 import GraphCard from '../components/GraphCard';
 import SpendingsCard from '../components/SpendingsCard';
+import AuthCard from "../components/AuthCard.tsx";
 
 const Homepage = () => {
     return (
@@ -12,6 +13,9 @@ const Homepage = () => {
         <header className="bg-blue-600 text-white shadow-md">
           <div className="container mx-auto px-4 py-4">
             <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
+		  <div className="float-right">
+			<AuthCard />
+		  </div>
           </div>
         </header>
 
