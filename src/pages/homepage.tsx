@@ -59,19 +59,23 @@ const Homepage = () => {
   }
 
   // Find the most recent entry in each history
-  const mostRecentIncome = incomeHistory.reduce((a, b) => {
-    return convertToDate(a.date) > convertToDate(b.date) ? a : b;
-  });
+  const mostRecentIncome = incomeHistory.length > 0 
+  ? incomeHistory.reduce((a, b) => {
+      return convertToDate(a.date) > convertToDate(b.date) ? a : b;
+    }) 
+  : null;
 
-  const mostRecentSpending = spendingHistory.reduce((a, b) => {
-    return convertToDate(a.date) > convertToDate(b.date) ? a : b;
-  });
+  const mostRecentSpending = spendingHistory.length > 0 
+  ? spendingHistory.reduce((a, b) => {
+      return convertToDate(a.date) > convertToDate(b.date) ? a : b;
+    }) 
+  : null;
 
   // Determine the most recent overall entry
-  const mostRecentEntry = convertToDate(mostRecentIncome.date) > convertToDate(mostRecentSpending.date)
+  /*const mostRecentEntry = convertToDate(mostRecentIncome.date) > convertToDate(mostRecentSpending.date)
     ? mostRecentIncome
     : mostRecentSpending;
-
+  */
 
   return (
     <div className="min-h-screen bg-gray-100">
