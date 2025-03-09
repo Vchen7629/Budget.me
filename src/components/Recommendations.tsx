@@ -67,7 +67,6 @@ const Recommendations: React.FC<{ data: any }> = ({ data }) => {
 
   async function handleSubmit() {
     if (!promptText.trim()) return;
-    console.log("hey")
     await sendPrompt(promptText)
     setPromptText("")
     await refetch()

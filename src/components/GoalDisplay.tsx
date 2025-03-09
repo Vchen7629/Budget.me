@@ -15,7 +15,6 @@ const GoalDisplay: React.FC<{ data: any }> = ({ data }) => {
   }
 
   function handleAddNewSavingsGoal() {
-    console.log("WTFFFF")
     setGoalAmount(goalValue)
     toast.success("Successfully added new savings goal")
   }

@@ -23,21 +23,18 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
     const value = e.target.value;
 
     setSpendingValue(value);
-    console.log(spendingValue);
   }
 
   function handleDateInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
     setDate(value);
-    console.log(date);
   }
 
   function handleDescInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
     setDescription(value);
-    console.log(description);
   }
 
   async function handleAddNewSpending() {

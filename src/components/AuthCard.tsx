@@ -15,10 +15,8 @@ function AuthCard() {
     const handleAuth = async () => {
       if (isAuthenticated && user) {
           const result = dispatch(setCredentials({ username: user.name }));
-          console.log(result)
           const payload = result.payload.username
           const results = await sendusername({ username: payload })
-          console.log(results)
       }
     }
 
