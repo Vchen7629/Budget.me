@@ -26,7 +26,7 @@ const GraphCard: React.FC = () => {
     <div className="bg-white rounded-lg shadow-md p-4" ref={containerRef}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex flex-col items-center">
-          <h2 className="text-xl font-bold mb-4">Graph</h2>
+          <h2 className="text-xl font-bold mb-4">Balance & Spending History</h2>
           <Graph 
             // data={data} 
             width={Math.min(containerWidth - 100, 700)} 
