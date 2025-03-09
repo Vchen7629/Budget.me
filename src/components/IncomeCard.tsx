@@ -3,12 +3,15 @@ import { Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { PeriodDropdownComponent } from './PeriodDropdown';
 import { toast } from 'sonner';
+import { useAddNewIncomeSourceMutation } from '@/app/api-slices/usersApiSlice';
 
 const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
   const [incomeData, setIncomeData] = useState<any[]>([])
   const [incomeValue, setIncomeValue] = useState("");
   const [date, setDate] = useState("");
+  const [formattedDate, setFormatedDate] = useState("")
   const [desc, setDesc] = useState("");
+  const [addNewIncome] = useAddNewIncomeSourceMutation()
 
   useEffect(() => {
     if (data) {
@@ -36,14 +39,12 @@ const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
     setDesc(value);
   }
 
-  function handleAddNewIncome() {
+  async function handleAddNewIncome() {
+    const result = date.split("-")
+    setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
     toast.success("Successfully added new income stream")
+    await addNewIncome({ incomeValue: incomeValue, description: desc, date: formattedDate}).unwrap()
   }
-
-  useEffect(() => {
-
-  })
-
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -75,7 +76,7 @@ const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
           <Input value={date} onChange={handleDateFieldChange} type="date" placeholder="mm/dd/yyyy" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
           <Input value={desc} onChange={handleDescFieldChange} type="text" placeholder="Enter Description" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
           <div className="flex justify-between space-x-2">
-          <Input value={incomeValue} onChange={handleIncomeFieldChange} type="amount" placeholder="Enter Amount Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={incomeValue} onChange={handleIncomeFieldChange} type="number" placeholder="Enter Amount Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
             <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
               <Plus className='text-white w-4'/>
             </button>
