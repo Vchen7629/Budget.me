@@ -102,12 +102,23 @@ class Database:
 
     def analyzeData(self, userid, initBal):
         data = self.database.get_collection(userid).find()
-        stringify = "date, description, amount, required\n"
-        for doc in data:
-            stringify = stringify + f"{doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
+        stringify = csvify(data)
 
-        return geminiAnalyze(stringify, initBal)
+        # return geminiAnalyze(stringify, initBal)
         # return geminiAnalyze(data, initBal)
+
+    # convert list of mongodb docs to a csv
+    @staticmethod
+    def csvify(data):
+        csvString = "date, description, amount, required\n"
+        for doc in data:
+            csvString = csvString + f"{doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
+        return csvString
+    
+    def pullData(self, userid):
+        data = self.database.get_collection(userid).find()
+        return data
+
 
         
         
