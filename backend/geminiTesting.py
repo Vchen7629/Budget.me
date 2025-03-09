@@ -1,9 +1,11 @@
 from google import genai
 from google.genai import types
+from flask import request, jsonify
 import pathlib
 import httpx
-
 import os
+
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,6 +34,8 @@ def parsePDF(file):
 
     pdfData = []
 
+    print("Raw response text:", response.text)
+
     for i in response.text.splitlines()[2:-1]:
         splitData = i.split(",")
         pdfData.append({
@@ -42,5 +46,5 @@ def parsePDF(file):
         })
     return pdfData
 
-for i in parsePDF("BankStatements.pdf"):
-    print(i)
+#for i in parsePDF("BankStatements.pdf"):
+#    print(i)

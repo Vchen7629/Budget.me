@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { setCredentials } from '@/app/api-slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 function AuthCard() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const [_, setShowLogin] = useState(!isAuthenticated);
+  const dispatch = useDispatch
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      dispatch(setCredentials({ username: user.name }));
+    }
+  }, [isAuthenticated, user, dispatch]);
 
   const handleLogin = () => {
     loginWithRedirect();
