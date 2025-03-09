@@ -42,7 +42,7 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
 
   async function handleAddNewSpending() {
     const result = date.split("-")
-    const newFormattedDate = `${result[1]}-${result[2]}-${result[0]}`
+    const newFormattedDate = `${result[2]}-${result[0]}-${result[1]}`
     
     try {
       await addNewExpense({ 

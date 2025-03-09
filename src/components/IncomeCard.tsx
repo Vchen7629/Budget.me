@@ -39,24 +39,26 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
   }
 
   async function handleAddNewIncome() {
-    const result = date.split("-")
-    const newFormattedDate = `${result[1]}-${result[2]}-${result[0]}`
+    const result = date.split("-");
+    console.log(`${result[1]}-${result[2]}-${result[0]}`);
+    const newFormattedDate = `${result[1]}-${result[2]}-${result[0]}`;
+    console.log(newFormattedDate);
     
     try {
       await addNewIncome({ 
         incomeValue: incomeValue, 
         description: desc, 
-        date: newFormattedDate  // Use the value directly
-      }).unwrap()
+        date: newFormattedDate // Use the value directly
+      }).unwrap();
       
       // Only show success and refetch after successful API call
-      toast.success("Successfully added new income stream")
-      refetch()
+      toast.success("Successfully added new income stream");
+      refetch();
       
       // Clear form fields for next entry
-      setIncomeValue("")
-      setDesc("")
-      setDate("")
+      setIncomeValue("");
+      setDesc("");
+      setDate("");
     } catch (error) {
       toast.error("Failed to add income stream")
       console.error(error)
