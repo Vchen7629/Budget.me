@@ -60,10 +60,8 @@ def Upload():
     save_path = os.path.join(app.config['UPLOAD_FOLDER'], "BankStatements.pdf")
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     file.save(save_path)
-    username = request.form.get('username')
-    print(f"Using username from session: {username}")
 
-    if databaseInstance.addPDF(username):
+    if databaseInstance.addPDF("hi"):
         return jsonify({'status': 'success', 'message': 'successfully added pdf'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'error adding pdf'}), 400

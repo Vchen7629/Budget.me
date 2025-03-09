@@ -12,7 +12,7 @@ from bson.objectid import ObjectId
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
 
-uri = "mongodb+srv://matthewkim1117:" + mongodbPass + "@hackmercedbudgeting.7kgt3.mongodb.net/?retryWrites=true&w=majority&appName=HackMercedBudgeting"
+uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -61,7 +61,7 @@ class Database:
     # takes in a userid string, looks for <userid>BankStatements.pdf, parses & adds it to the database, then deletes the pdf
     def addPDF(self, username):
         try:
-            pdfPath = os.path.join(app.config['UPLOAD_FOLDER'], username + "BankStatements.pdf")
+            pdfPath = os.path.join(app.config['UPLOAD_FOLDER'], "BankStatements.pdf")
             if os.path.exists(pdfPath):
                 userCollection = self.database.get_collection(username) 
                 parsedPDF = parsePDF(pdfPath)
