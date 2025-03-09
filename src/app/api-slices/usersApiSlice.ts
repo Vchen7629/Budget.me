@@ -73,7 +73,36 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
                 body: { id: id },
             })
+        }),
+        SendNewChat: builder.mutation<any[], string>({
+            query: (text) => {
+                const formData = new FormData();
+                formData.append('text', text);
+                
+                return {
+                    url: "/sendChat",
+                    method: "POST",
+                    body: formData,
+                }
+            }
+        }),
+        getChatResponse: builder.query<{message: string}[], void>({
+            query: () => ({
+                url: `/recieveResponse`,
+                method: "GET",
+                responseHandler: response => response.text(),
+            }),
+            transformResponse: (responseData: string) => {
+                return [{ message: responseData }];
+            },
+        }),
+        initializeGeminiData: builder.mutation<void, void>({
+            query: () => ({
+                url: "/updateDocs",
+                method: "POST",
+            })
         })
+
     }),
 })
 
@@ -82,5 +111,8 @@ export const {
     useGetUserDataQuery,
     useAddNewIncomeSourceMutation,
     useAddNewExpenseMutation,
-    useDeleteEntryMutation
+    useDeleteEntryMutation,
+    useSendNewChatMutation,
+    useGetChatResponseQuery,
+    useInitializeGeminiDataMutation
 } = usersApiSlice
