@@ -16,9 +16,8 @@ const PdfDropZone = () => {
 
     return (
         <div className="flex justify-center items-center bg-white rounded-lg shadow-md p-4">
-            <div className='flex h-[15vh] w-full'>
+            <div className='h-full w-full'>
                 <FilePond 
-                    files={file}
                     onupdatefiles={(fileItems: FilePondFile[]) => {
                         setFiles(fileItems);
                     }}

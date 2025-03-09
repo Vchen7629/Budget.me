@@ -5,11 +5,15 @@
 
 .filepond--root {
     display: flex;
-    width: 30vw;
-    height: 15vh;
+    width: unset;
+    height: 20vh;
     margin-top: 2vh;
 }
 
 .filepond--panel-root {
     background-color: white;
+}
+
+.filepond--list-scroller {
+    height: 100px !important; /* or set a specific height if needed */
 }
