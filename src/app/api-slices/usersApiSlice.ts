@@ -66,6 +66,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     formData: true,
                 };
             },
+        }),
+        DeleteEntry: builder.mutation<any[], string>({
+            query: (id) => ({
+                url: '/removeEntry',
+                method: 'DELETE',
+                body: { id: id },
+            })
         })
     }),
 })
@@ -74,5 +81,6 @@ export const {
     useSendUsernameMutation,
     useGetUserDataQuery,
     useAddNewIncomeSourceMutation,
-    useAddNewExpenseMutation
+    useAddNewExpenseMutation,
+    useDeleteEntryMutation
 } = usersApiSlice
