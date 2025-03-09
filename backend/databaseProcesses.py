@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS, cross_origin
+from datetime import datetime
 import os
 
 
@@ -21,11 +22,9 @@ databaseInstance = Database()
 
 @app.route('/H', methods=['GET'])
 def returnYippee():
-    # databaseInstance.createDB("user0")
-    # databaseInstance.addPDF("user0")
 
     # print(databaseInstance.analyzeData("user0", 8300))
-    print(databaseInstance.pullData("user0"))
+    # print(databaseInstance.pullData("Auth"))
 
     return "yip"
 
@@ -37,9 +36,6 @@ def returnData():
 def addData():
     return
 
-@app.route('/parsePDF', methods=['GET'])
-def parsePDF():
-    return
 @app.route("/username", methods=['POST'])
 def Username():
     if not request.is_json:
@@ -73,7 +69,29 @@ def Upload():
         return jsonify({'status': 'success', 'message': 'successfully added pdf'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'error adding pdf'}), 400
-
-
-if __name__ == '__main__':
-    app.run(debug=True)  # Start the server in debug mode
+    
+@app.route('/addEntry', methods=['POST'])
+def addEntry():
+    date = request.form.get('date')
+    description = request.form.get('description')
+    amount = request.form.get('amount')
+    required = request.form.get('required')
+    
+    try:
+        date = datetime.strptime(date, '%m-%d-%Y')
+    except ValueError:
+        return jsonify({'status': 'error', 'message': 'invalid date formatting'}), 400
+    
+    try:
+        amount = float(amount)
+    except ValueError:
+        return jsonify({'status': 'error', 'message': 'invalid amount formatting'}), 400
+    
+    if int(required) in (-1, 0, 1):
+        required = int(required)
+    else:
+        return jsonify({'status': 'error', 'message': 'invalid required formatting'}), 400
+    
+    databaseInstance.addRow("Auth", [date, description, amount, required])
+    return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
+    

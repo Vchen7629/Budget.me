@@ -13,7 +13,8 @@ from geminiAnalysis import geminiAnalyze
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
 
-uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://matthewkim1117:" + mongodbPass + "@hackmercedbudgeting.7kgt3.mongodb.net/?retryWrites=true&w=majority&appName=HackMercedBudgeting"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -33,9 +34,6 @@ class Database:
             print("Pinged your deployment. You successfully connected to MongoDB!")
         except Exception as e:
             print(e)
-
-    def initComplete(self):
-        return "yippee! init complete!"
     
     def createDB(self, userid):
         try:
@@ -110,9 +108,9 @@ class Database:
     # convert list of mongodb docs to a csv
     @staticmethod
     def csvify(data):
-        csvString = "date, description, amount, required\n"
+        csvString = "id, date, description, amount, required\n"
         for doc in data:
-            csvString = csvString + f"{doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
+            csvString = csvString + f"{doc['_id'].toString()}, {doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
         return csvString
     
     def pullData(self, username):

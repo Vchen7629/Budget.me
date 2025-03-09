@@ -17,7 +17,7 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 def parsePDF(file):
     filepath = pathlib.Path(file)
 
-    prompt = '''parse the following bank statement pdf to make a CSV of date (formated DD-MM-YYYY), 
+    prompt = '''parse the following bank statement pdf to make a CSV of date (formated MM-DD-YYYY), 
     description, withdrawal/deposit amount (positive/negative floats for deposit/withdrawal), and an inference of whether 
     or not it is a required expenditure represented by an integer.(1 if required, 0 if not required)
     (do not include if the row does not have a withdrawal/deposit, remove the commas
