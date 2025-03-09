@@ -37,10 +37,12 @@ const Graph: React.FC<GraphProps> = ({
     );
   }
 
+  const maxi = Math.max(...incomeHistory.map(item => item.amount));
+
   const maxPrice = Math.max(
-    Math.max(...incomeHistory.map(item => item.amount)),
+    maxi,
     Math.max(...spendingHistory.map(item => Math.abs(item.amount))),
-    Math.abs(initialBalance)
+    Math.max(initialBalance + maxi)
   );
   const minPrice = Math.min(
     Math.min(...incomeHistory.map(item => item.amount)),
@@ -235,17 +237,25 @@ const Graph: React.FC<GraphProps> = ({
             onMouseOut={handleMouseOut}
           >
             <div 
-              className={`bg-${hoveredPoint.type === 'income' ? 'green-100' : hoveredPoint.type === 'spending' ? 'red-100' : 'blue-100'} rounded p-1 text-center shadow-md`} 
-              style={{ userSelect: 'none', fontSize: '10px', lineHeight: '1.2' }}
+              style={{
+                backgroundColor: hoveredPoint.type === 'income' ? '#C6F4D6' : hoveredPoint.type === 'spending' ? '#FFC5C5' : '#bee3f8',
+                borderRadius: '5px',
+                padding: '5px',
+                textAlign: 'center',
+                boxShadow: '0 0 5px rgba(0,0,0,0.2)',
+                userSelect: 'none',
+                fontSize: '10px',
+                lineHeight: '1.2'
+              }}
             >
-              <div className="text-gray-500 text-xs">
+              <div style={{ color: '#6B7280', fontSize: '8px' }}>
                 {new Date(hoveredPoint.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
               </div>
-              <div className="text-black font-medium">
+              <div style={{ color: '#000000', fontSize: '10px', fontWeight: 'bold' }}>
                 ${hoveredPoint.price.toFixed(2)}
               </div>
             </div>
-          </foreignObject>
+          </foreignObject>        
         )}
       </svg>
       {/* Legend */}

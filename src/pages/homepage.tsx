@@ -28,7 +28,7 @@ const Homepage = () => {
     return <div>No data available</div>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   const incomeHistory = data.filter(item => item.required === -1).map(item => ({
     date: item.date,
@@ -43,12 +43,12 @@ const Homepage = () => {
   const totalIncome = incomeHistory.reduce((acc, curr) => acc + curr.amount, 0);
   const totalSpending = spendingHistory.reduce((acc, curr) => acc + curr.amount, 0);
 
-  console.log(totalIncome);
-  console.log(totalSpending);
+  // console.log(totalIncome);
+  // console.log(totalSpending);
 
   const currBalance = Number((totalIncome + totalSpending).toFixed(2));
 
-  console.log(currBalance);
+  // console.log(currBalance);
 
   // Function to convert date string to Date object
   function convertToDate(dateString: string) {
@@ -70,7 +70,7 @@ const Homepage = () => {
     ? mostRecentIncome
     : mostRecentSpending;
 
-  console.log(mostRecentEntry);
+  // console.log(mostRecentEntry);
 
   return (
     <div className="min-h-screen bg-gray-100">

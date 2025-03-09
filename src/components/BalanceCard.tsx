@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
 // import { PeriodDropdownComponent } from './PeriodDropdown';
 import { Input } from './ui/input';
-import { toast } from 'sonner';
 
 const BalanceCard: React.FC<{ balance: any, initialBalance: any, setInitialBalance: any }> = 
 ({ balance, initialBalance, setInitialBalance }) => {
-  console.log(balance)
   const [balanceValue, setBalanceValue] = useState(balance);
 
-  console.log(balanceValue)
+  // console.log(balanceValue)
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -18,10 +15,6 @@ const BalanceCard: React.FC<{ balance: any, initialBalance: any, setInitialBalan
     } else {
       setInitialBalance(0);
     }
-  }
-
-  function handleEditBalance() {
-    toast.success("Successfully Edited Balance")
   }
 
   return (
@@ -42,10 +35,6 @@ const BalanceCard: React.FC<{ balance: any, initialBalance: any, setInitialBalan
         </div>  
         <div className="flex justify-between space-x-2">
           <Input value={initialBalance} onChange={handleInputChange} type="amount" placeholder="Enter Amount" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
-          {/* MAKE A FUNCTION TO CHANGE BALANCE HISTORY END ENTRY */}
-          <button onClick={handleEditBalance} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
-            <Plus className='text-white w-4'/>
-          </button>
         </div>
       </div>
     </div>
