@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { MinusIcon, Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
-import { useAddNewExpenseMutation } from '@/app/api-slices/usersApiSlice';
+import { useAddNewExpenseMutation, useDeleteEntryMutation } from '@/app/api-slices/usersApiSlice';
 
 const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) => {
   const [spendingValue, setSpendingValue] = useState("");
@@ -11,7 +11,7 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
   const [formattedDate, setFormatedDate] = useState("")
   const [description, setDescription] = useState("")
   const [addNewExpense] = useAddNewExpenseMutation<any[]>()
-  
+  const [deleteRow] = useDeleteEntryMutation()
   
   useEffect(() => {
       if (data) {
@@ -48,13 +48,17 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
     refetch()
   }
 
+  async function handleDeleteRow(id: string) {
+    await deleteRow(id)
+    refetch()
+  }
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
       {/* Spendings Display */}
       <div className="md:col-span-3 bg-white rounded-lg shadow-md p-4">
         <h2 className="text-xl font-bold mb-4">Spendings</h2>
-        <div className="overflow-auto max-h-[500px]">
+        <div className="overflow-auto space-y-2 max-h-[500px]">
           {spendingData.filter(spendingData => spendingData.required !== -1)
             .map((income) => (
                 <div 
@@ -64,6 +68,9 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
                   <div>{income?.date}</div>
                   <div>{income?.description}</div>
                   <div className='text-red-500'>${income?.amount}</div>
+                  <button onClick={() => {handleDeleteRow(income?.id)}} className='flex bg-red-400 rounded-lg'>
+                    <MinusIcon />
+                  </button>
                 </div>          
             ))}
         </div>
