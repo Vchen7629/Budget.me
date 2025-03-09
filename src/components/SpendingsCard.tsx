@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
-import { PeriodDropdownComponent } from './PeriodDropdown';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
-import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
+import { useAddNewExpenseMutation, useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
 const SpendingsCard: React.FC = () => {
   const [spendingValue, setSpendingValue] = useState("");
   const { data } = useGetUserDataQuery();
   const [spendingData, setSpendingData] = useState<any[]>([])
+  const [date, setDate] = useState("")
+  const [description, setDescription] = useState("")
+  const [addNewExpense] = useAddNewExpenseMutation<any[]>()
   
-   useEffect(() => {
+  
+  useEffect(() => {
       if (data) {
         setSpendingData(data)
       } 
-    }, [data])
+  }, [data])
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleSpendingInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
     setSpendingValue(value);
+    console.log(spendingValue)
   }
 
-  function handleAddNewSpending() {
+  function handleDateInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    setDate(value);
+    console.log(date)
+  }
+
+  function handleDescInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    setDescription(value);
+    console.log(description)
+  }
+
+  async function handleAddNewSpending() {
+    await addNewExpense({ spendingValue: spendingValue, description: description, date: date}).unwrap()
     toast.success("Successfully added new spending source")
   }
 
@@ -34,7 +53,7 @@ const SpendingsCard: React.FC = () => {
         <h2 className="text-xl font-bold mb-4">Spendings</h2>
         <div className="overflow-auto max-h-[500px]">
           {spendingData.filter(spendingData => spendingData.required !== -1)
-            .map((income, index) => (
+            .map((income) => (
                 <div 
                   key={income.id}
                   className="flex justify-between"
@@ -47,16 +66,19 @@ const SpendingsCard: React.FC = () => {
         </div>
       </div>
       {/* Add Spending Panel */}
-      <div className="md:col-span-2 bg-white rounded-lg shadow-md p-4">
+      <div className="md:col-span-2 bg-white space-y-2 rounded-lg shadow-md p-4">
         <div className='flex justify-between'>
           <h2 className="text-lg font-bold mb-4">Add Spending</h2>
-          <PeriodDropdownComponent />
         </div>  
-        <div className="flex justify-between space-x-2">
-          <Input value={spendingValue} onChange={handleInputChange} type="amount" placeholder="Enter Spending Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
-          <button onClick={handleAddNewSpending} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
-            <Plus className='text-white w-4'/>
-          </button>
+        <div className="flex flex-col space-y-4 ">
+          <Input value={spendingValue} onChange={handleSpendingInputChange} type="number" placeholder="Enter Spending Per Period" className="w-[85%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={description} onChange={handleDescInputChange} type="string" placeholder="Enter Description of Expense" className="w-[85%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <div className='flex space-x-2'>
+            <Input value={date} onChange={handleDateInputChange} type="date" placeholder="Enter Description of Expense" className="w-full border-2 z-0 border-gray-400 text-gray-400"/>
+            <button onClick={handleAddNewSpending} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
+              <Plus className='text-white w-4'/>
+            </button>
+          </div>
         </div>
       </div>
     </div>

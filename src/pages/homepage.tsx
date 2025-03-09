@@ -13,9 +13,6 @@ import PdfDropZone from '@/components/PdfDropZone.tsx';
 const Homepage = () => {
     const navigate = useNavigate();
 
-    function navigateLogin() {
-      navigate("/login")
-    }
     return (
       <div className="min-h-screen bg-gray-100">
         <Toaster richColors expand={true} className='z-50'/>

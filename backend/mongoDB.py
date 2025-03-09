@@ -54,11 +54,9 @@ class Database:
                 "required": bool(fields[3])
             }
             userCollection.insert_one(rowInfo)
+            return jsonify({ "message": "Successfully Added New Row to DB", "status": "success"}), 200
         except Exception as e:
             print(e)
-    #takes in the username from post request from /username path
-    #def username(self, username): 
-    #    print(username)
 
         
     # takes in a userid string, looks for <userid>BankStatements.pdf, parses & adds it to the database, then deletes the pdf

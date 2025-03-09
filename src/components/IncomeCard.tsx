@@ -27,11 +27,6 @@ const IncomeCard: React.FC = () => {
   function handleAddNewIncome() {
     toast.success("Successfully added new income stream")
   }
-
-  useEffect(() => {
-
-  })
-
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -40,7 +35,7 @@ const IncomeCard: React.FC = () => {
         <h2 className="text-xl font-bold mb-4">Income</h2>
         <div className="overflow-auto max-h-[500px]">
           {incomeData.filter(incomeData => incomeData.required === -1)
-          .map((income, index) => (
+          .map((income) => (
               <div 
                 key={income.id}
                 className="flex justify-between"

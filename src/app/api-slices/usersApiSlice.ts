@@ -14,7 +14,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 { type: 'User', id: "LIST" }
             ]
         }),
-        GetUserData: builder.query<any[], any[]>({
+        GetUserData: builder.query<any[], void>({
             query: () => ({
                 url: `/viewData`,
                 method: "GET",
@@ -31,11 +31,37 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     }
                 }).data
             },
+        }),
+        AddNewIncomeSource: builder.mutation<any[], any[] >({
+            query: () => ({
+                url: '/addSingle',
+                method: 'POST',
+                body: {
+                    initialUserData
+                },
+            }),
+            invalidatesTags: [
+                { type: 'User', id: "LIST" }
+            ]
+        }),
+        AddNewExpense: builder.mutation<any[], { spendingValue: string, description: string, date: string }>({
+            query: ({ spendingValue, description, date }) => ({
+                url: `/addSingle`,
+                method: 'POST',
+                body: {
+                    spendingValue,
+                    description,
+                    date,
+                    required: "1"
+                },
+            }),
         })
     }),
 })
 
 export const { 
     useSendUsernameMutation,
-    useGetUserDataQuery
+    useGetUserDataQuery,
+    useAddNewIncomeSourceMutation,
+    useAddNewExpenseMutation
 } = usersApiSlice

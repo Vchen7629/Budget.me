@@ -35,6 +35,7 @@ def returnData():
 
 @app.route('/addSingle', methods=['POST'])
 def addData():
+    databaseInstance.addRow("Auth")
     return
 
 @app.route('/parsePDF', methods=['GET'])
