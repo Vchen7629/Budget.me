@@ -1,39 +1,23 @@
 import React, { useState } from 'react';
-import { Data } from '../types';
 
 interface GraphProps {
-  data?: Data;
-  width?: number;
-  height?: number;
+  bHistory: { date: string; amount: number }[];
+  sHistory: { date: string; amount: number }[];
+  width: number;
+  height: number;
 }
 
 const Graph: React.FC<GraphProps> = ({
-  data = {
-    balanceHistory: [
-      { date: '2024-01-01', amount: 1 },
-      { date: '2024-01-15', amount: 2 },
-      { date: '2024-02-01', amount: 3 },
-      { date: '2024-02-15', amount: 4 },
-      { date: '2024-03-01', amount: 5 },
-      { date: '2024-03-15', amount: 6 },
-      { date: '2024-04-01', amount: 7 },
-      { date: '2024-04-15', amount: 8 },
-      { date: '2024-05-01', amount: 9 },
-    ],
-    spendingHistory: [
-      { date: '2024-01-01', amount: 0 },
-      { date: '2024-01-15', amount: 1 },
-      { date: '2024-02-01', amount: 2 },
-      { date: '2024-02-15', amount: 3 },
-      { date: '2024-03-01', amount: 4 },
-      { date: '2024-03-15', amount: 5 },
-      { date: '2024-04-30', amount: 8 },
-    ]},
-  width = 300,
-  height = 150
+  bHistory,
+  sHistory,
+  width,
+  height
 }) => {
-  const balanceHistory = data.balanceHistory;
-  const spendingHistory = data.spendingHistory;
+  const balanceHistory = bHistory;
+  const spendingHistory = sHistory;
+
+  console.log(balanceHistory);
+  console.log(spendingHistory);
 
   // If we don't have enough data points, show a placeholder
   if (balanceHistory.length < 2 || spendingHistory.length < 2) {

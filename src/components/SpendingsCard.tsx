@@ -3,11 +3,9 @@ import { Plus } from 'lucide-react';
 import { PeriodDropdownComponent } from './PeriodDropdown';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
-import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
-const SpendingsCard: React.FC = () => {
+const SpendingsCard: React.FC<{ data: any }> = ({ data }) => {
   const [spendingValue, setSpendingValue] = useState("");
-  const { data } = useGetUserDataQuery();
   const [spendingData, setSpendingData] = useState<any[]>([])
   
    useEffect(() => {
