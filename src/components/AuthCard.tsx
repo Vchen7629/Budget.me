@@ -2,17 +2,27 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { setCredentials } from '@/app/api-slices/userSlice';
 import { useDispatch } from 'react-redux';
+import { useSendUsernameMutation } from '@/app/api-slices/usersApiSlice';
 
 function AuthCard() {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const [_, setShowLogin] = useState(!isAuthenticated);
-  const dispatch = useDispatch
+  const dispatch = useDispatch()
+  const [sendusername] = useSendUsernameMutation()
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      dispatch(setCredentials({ username: user.name }));
+    const handleAuth = async () => {
+      if (isAuthenticated && user) {
+          const result = dispatch(setCredentials({ username: user.name }));
+          console.log(result)
+          const payload = result.payload.username
+          const results = await sendusername({ username: payload })
+          console.log(results)
+      }
     }
-  }, [isAuthenticated, user, dispatch]);
+
+    handleAuth()
+  }, [isAuthenticated, user, dispatch, sendusername])
 
   const handleLogin = () => {
     loginWithRedirect();
