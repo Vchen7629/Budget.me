@@ -120,10 +120,24 @@ def addEntry():
     databaseInstance.addRow("Auth", [date, description, amount, required])
     return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
     
-@app.route('/removeEntry', methods=['POST'])
+@app.route('/removeEntry', methods=['DELETE'])
 def removeEntry():
-    id = request.form.get('id')
-    if databaseInstance.deleteRow("Auth", id):
+    id = None
+    
+    # Check if JSON data
+    if request.is_json:
+        id = request.json.get('id')
+    # Check form data
+    else:
+        id = request.form.get('id')
+        
+    # If still None, try to get from URL parameters
+    if id is None:
+        id = request.args.get('id')
+    
+    print(f"Attempting to delete document with id: {id}")
+    
+    if id and databaseInstance.deleteRow("Auth", id):
         return jsonify({'status': 'success', 'message': 'successfully removed row'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'error removing row'}), 400
