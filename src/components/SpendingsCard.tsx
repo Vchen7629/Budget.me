@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { PeriodDropdownComponent } from './PeriodDropdown';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
+import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
 const SpendingsCard: React.FC = () => {
   const [spendingValue, setSpendingValue] = useState("");
+  const { data } = useGetUserDataQuery();
+  const [spendingData, setSpendingData] = useState<any[]>([])
+  
+   useEffect(() => {
+      if (data) {
+        setSpendingData(data)
+      } 
+    }, [data])
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -23,8 +32,19 @@ const SpendingsCard: React.FC = () => {
       {/* Spendings Display */}
       <div className="md:col-span-3 bg-white rounded-lg shadow-md p-4">
         <h2 className="text-xl font-bold mb-4">Spendings</h2>
-        {/* Add spendings display content here */}
-        {/* map spending array to elements */}
+        <div className="overflow-auto max-h-[500px]">
+          {spendingData.filter(spendingData => spendingData.required !== -1)
+            .map((income, index) => (
+                <div 
+                  key={income.id}
+                  className="flex justify-between"
+                >
+                  <div>{income?.date}</div>
+                  <div>{income?.description}</div>
+                  <div className='text-red-500'>${income?.amount}</div>
+                </div>          
+            ))}
+        </div>
       </div>
       {/* Add Spending Panel */}
       <div className="md:col-span-2 bg-white rounded-lg shadow-md p-4">

@@ -1,4 +1,6 @@
 import { apiSlice } from "../api/apiSlice"
+import Papa from 'papaparse';
+
 
 export const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -12,13 +14,22 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 { type: 'User', id: "LIST" }
             ]
         }),
-        GetUserData: builder.query<any | null, void>({
+        GetUserData: builder.query<any[], any[]>({
             query: () => ({
                 url: `/viewData`,
                 method: "GET",
+                responseHandler: response => response.text(),
             }),
-            transformResponse: (responseData) => {
-                return responseData;
+            transformResponse: (responseData: string[]) => {
+                return Papa.parse(responseData as any, {
+                    header: true,
+                    skipEmptyLines: true,
+                    dynamicTyping: true,
+                    transformHeader: (header) => header.trim(),
+                    transform: (value) => {
+                        return typeof value === 'string' ? value.trim() : value;
+                    }
+                }).data
             },
         })
     }),

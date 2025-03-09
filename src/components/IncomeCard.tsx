@@ -7,12 +7,15 @@ import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
 const IncomeCard: React.FC = () => {
   const [incomeValue, setIncomeValue] = useState("");
-  const { data, isLoading, error} = useGetUserDataQuery();
+  const { data } = useGetUserDataQuery();
+  const [incomeData, setIncomeData] = useState<any[]>([])
 
   useEffect(() => {
     if (data) {
+      setIncomeData(data)
       console.log(data)
-    }
+      console.log(incomeData)
+    } 
   }, [data])
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -36,7 +39,17 @@ const IncomeCard: React.FC = () => {
       <div className="md:col-span-3 bg-white rounded-lg shadow-md p-4">
         <h2 className="text-xl font-bold mb-4">Income</h2>
         <div className="overflow-auto max-h-[500px]">
-
+          {incomeData.filter(incomeData => incomeData.required === -1)
+          .map((income, index) => (
+              <div 
+                key={income.id}
+                className="flex justify-between"
+              >
+                <div>{income?.date}</div>
+                <div>{income?.description}</div>
+                <div className='text-green-500'>${income?.amount}</div>
+              </div>          
+          ))}
         </div>
       </div>
       
