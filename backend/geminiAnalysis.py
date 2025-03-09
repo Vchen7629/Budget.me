@@ -10,22 +10,27 @@ load_dotenv()
 
 class GeminiChat:
 
-    def __init__(self, docs, initBal):
+    def __init__(self):
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.chat = self.client.chats.create(model="gemini-2.0-flash")
-        prompt = f'''You are a Budget.me, a budgeting service. Your client's initial balance is {initBal} and their 
-    transactions are listed below. The "required" field has an integer that is 1 if an expenditure is likely required,
-    0 if it is likely not required, and -1 if it is a deposit/income. {docs} Based on this data, answer the client's questions
+        prompt = f'''You are a Budget.me, a budgeting service. You currently do not have your client's financial information yet.
+        You will recieve their initial balance and a list of their transactions. The "required" field has an integer that is 1 if an expenditure is likely required,
+    0 if it is likely not required, and -1 if it is a deposit/income. Based on this data, answer the client's questions
     in around 200 words.'''
         self.chat.send_message(prompt)
+
+        self.recentChat = ""
     
     # prompts AI using the user's prompt
-    def sendChat(self, text):
-        response = self.chat.send_message(text)
-        return response.text
+    def recievePrompt(self, text):
+        self.recentChat = self.chat.send_message(text)
+        return self.recentChat
     
+    def sendResponse(self):
+        return self.recentChat
+
     # prompts AI to update the data it is referencing for responses
-    def updateData(self, newDocs, newBal):
+    def updateData(self, newDocs, newBal, spendingGoal):
         prompt = f'''Your client's data has been updated. Their initial balance is now {newBal} USD, and their 
         new transactions list is below. {newDocs} From now on, answer the client's questions based on their new data'''
         response = self.chat.send_message(prompt)
