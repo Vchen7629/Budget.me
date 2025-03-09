@@ -1,3 +1,4 @@
+from flask import Flask, jsonify, request
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS, cross_origin
 import os
@@ -21,17 +22,23 @@ databaseInstance = Database()
 @app.route('/H', methods=['GET'])
 def returnYippee():
     # databaseInstance.createDB("user0")
-    databaseInstance.addPDF("user0")
-    return "yippee"
+    # databaseInstance.addPDF("user0")
+
+    print(databaseInstance.analyzeData("user0", 8300))
+
+    return "yip"
 
 @app.route('/viewData', methods=['GET'])
 def returnData():
-    return "yippe"
+    return databaseInstance.pullData('user0')
 
 @app.route('/addSingle', methods=['POST'])
 def addData():
     return
 
+@app.route('/parsePDF', methods=['GET'])
+def parsePDF():
+    return
 @app.route("/username", methods=['POST'])
 def Username():
     if not request.is_json:
