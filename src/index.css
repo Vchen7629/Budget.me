@@ -13,3 +13,7 @@
 .filepond--panel-root {
     background-color: white;
 }
+
+.filepond--list-scroller {
+    height: 100px !important; /* or set a specific height if needed */
+}
