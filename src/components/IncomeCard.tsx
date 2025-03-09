@@ -63,14 +63,16 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
           .map((income, _) => (
               <div 
                 key={income.id}
-                className="flex justify-between"
+                className="flex justify-between items-center"
               >
-                <div>{income?.date}</div>
-                <div>{income?.description}</div>
-                <div className='text-green-500'>${income?.amount.toFixed(2)}</div>
-                <button onClick={() => {handleDeleteRow(income?.id)}} className='flex bg-red-400 rounded-lg'>
-                  <MinusIcon />
-                </button>
+                <div className="w-[30%]">{income?.date}</div>
+                <div className="w-[40%]">{income?.description}</div>
+                <div className="w-[20%] text-green-500">${income?.amount.toFixed(2)}</div>
+                <div className="flex justify-end">
+                  <button onClick={() => {handleDeleteRow(income?.id)}} className='flex bg-red-400 rounded-lg'>
+                    <MinusIcon />
+                  </button>
+                </div>
               </div>          
           ))}
         </div>
@@ -80,13 +82,13 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
       <div className="md:col-span-2 bg-white rounded-lg shadow-md p-4">
         <div className='flex justify-between'>
           <h2 className="text-lg font-bold mb-4">Add New Income</h2>
-          <PeriodDropdownComponent />
+          {/* <PeriodDropdownComponent /> */}
         </div>
         <div className='flex flex-col space-y-4'>
           <Input value={date} onChange={handleDateFieldChange} type="date" placeholder="mm/dd/yyyy" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
-          <Input value={desc} onChange={handleDescFieldChange} type="text" placeholder="Enter Description" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={desc} onChange={handleDescFieldChange} type="text" placeholder="Enter Description of Income" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
           <div className="flex justify-between space-x-2">
-          <Input value={incomeValue} onChange={handleIncomeFieldChange} type="number" placeholder="Enter Amount Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={incomeValue} onChange={handleIncomeFieldChange} type="number" placeholder="Enter Amount" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
             <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
               <Plus className='text-white w-4'/>
             </button>
@@ -94,7 +96,7 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default IncomeCard;
