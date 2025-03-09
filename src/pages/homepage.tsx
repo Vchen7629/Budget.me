@@ -12,7 +12,7 @@ import PdfDropZone from '@/components/PdfDropZone.tsx';
 import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
 const Homepage = () => {
-  const { data, isLoading, isError } = useGetUserDataQuery();
+  const { data, isLoading, isError, refetch } = useGetUserDataQuery();
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -47,14 +47,14 @@ const Homepage = () => {
           <div className="lg:col-span-2 space-y-6">
             <GraphCard data={data} />
             <BalanceCard data={data} />
-            <IncomeCard data={data} />
-            <SpendingsCard data={data} />
+            <IncomeCard data={data} refetch={refetch}/>
+            <SpendingsCard data={data} refetch={refetch}/>
           </div>
 
         {/* right side menus on pc */}
           <div className="space-y-6">
-            <PdfDropZone />
-            <GoalDisplay data={data} />
+            <PdfDropZone refetch={refetch}/>
+            <GoalDisplay data={data}/>
             <Recommendations data={data} />
           </div>
         </div>
