@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
-import { useAddNewExpenseMutation, useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
+import { useAddNewExpenseMutation } from '@/app/api-slices/usersApiSlice';
 
-const SpendingsCard: React.FC<{ data: any }> = ({ data }) => {
+const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) => {
   const [spendingValue, setSpendingValue] = useState("");
   const [spendingData, setSpendingData] = useState<any[]>([])
   const [date, setDate] = useState("")
@@ -45,6 +45,7 @@ const SpendingsCard: React.FC<{ data: any }> = ({ data }) => {
     setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
     await addNewExpense({ spendingValue: spendingValue, description: description, date: formattedDate}).unwrap()
     toast.success("Successfully added new spending source")
+    refetch()
   }
 
   

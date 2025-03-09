@@ -5,7 +5,7 @@ import { PeriodDropdownComponent } from './PeriodDropdown';
 import { toast } from 'sonner';
 import { useAddNewIncomeSourceMutation } from '@/app/api-slices/usersApiSlice';
 
-const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
+const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) => {
   const [incomeData, setIncomeData] = useState<any[]>([])
   const [incomeValue, setIncomeValue] = useState("");
   const [date, setDate] = useState("");
@@ -43,6 +43,7 @@ const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
     const result = date.split("-")
     setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
     toast.success("Successfully added new income stream")
+    refetch()
     await addNewIncome({ incomeValue: incomeValue, description: desc, date: formattedDate}).unwrap()
   }
   
