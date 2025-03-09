@@ -42,7 +42,6 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
     const chartData = useMemo(() => {
         const spendingAmount = totalExpense
         const GoalAmount = goalAmount
-        console.log("ChartData calculation - spending:", totalExpense, "goal:", goalAmount);
 
         return [
             { name: "Collection", spending: Number(spendingAmount), goal: Number(GoalAmount) }
@@ -50,10 +49,43 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
 
     }, [totalExpense, goalAmount])
     
-    const percentOfGoal = chartData[0].goal === 0 
-    ? 0 
+    const percentOfGoal = chartData[0].goal === 0
+    ? 0
     : (chartData[0].spending / chartData[0].goal) * 100;
 
+    const remainingPercentage = Math.max(0, 100 - percentOfGoal);
+
+
+    const isOverBudget = percentOfGoal <= 0;
+
+    const overBudgetPercentage = isOverBudget
+    ? ((chartData[0].spending / chartData[0].goal) * 100) - 100
+    : 0;
+
+    const [_, setBudgetMessage] = useState<React.ReactNode>(null);
+
+
+    useEffect(() => {
+        if (isOverBudget) {
+            setBudgetMessage(
+                <div className="text-red-500 font-bold">
+                  Over budget by {overBudgetPercentage.toFixed(1)}%
+                  <p className="mt-1">
+                    You are spending {(percentOfGoal / 100).toFixed(2)}x your budget limit
+                  </p>
+                </div>
+              );
+            } else {
+              setBudgetMessage(
+                <div className="text-green-500">
+                  {remainingPercentage.toFixed(1)}% of budget remaining
+                  <p className="mt-1">
+                    {percentOfGoal.toFixed(1)}% of budget used
+                  </p>
+                </div>
+              );
+            }
+          }, [isOverBudget, overBudgetPercentage, remainingPercentage, percentOfGoal]);
 
     return (
         <Card className="flex flex-col">
@@ -87,7 +119,9 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
                             >
-                            {(percentOfGoal).toFixed(2)}%
+                            {isOverBudget 
+                                ? "0%" 
+                                : `${remainingPercentage.toFixed(1)}%`}
                             </tspan>
                             <tspan
                             x={viewBox.cx}
