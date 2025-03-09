@@ -52,7 +52,10 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
 
     }, [totalExpense, goalAmount])
     
-    const totalVisitors = chartData[0].goal /chartData[0].spending
+    const percentOfGoal = chartData[0].goal === 0 
+    ? 0 // Handle division by zero
+    : (chartData[0].spending / chartData[0].goal) * 100;
+
 
     return (
         <Card className="flex flex-col">
@@ -86,7 +89,7 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
                             >
-                            {(totalVisitors).toFixed(2)}%
+                            {(percentOfGoal).toFixed(2)}%
                             </tspan>
                             <tspan
                             x={viewBox.cx}
