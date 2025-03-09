@@ -3,21 +3,29 @@ from pymongo.server_api import ServerApi
 import os
 from dotenv import load_dotenv
 import json
+import certifi
+from flask import Flask, jsonify, request
 from geminiTesting import parsePDF
 from bson.objectid import ObjectId
+
 
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
 
 uri = "mongodb+srv://matthewkim1117:" + mongodbPass + "@hackmercedbudgeting.7kgt3.mongodb.net/?retryWrites=true&w=majority&appName=HackMercedBudgeting"
 
-
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 class Database:
     
     def __init__(self):
         # Create a new client and connect to the server
-        self.client = MongoClient(uri, server_api=ServerApi('1'))
+        self.client = MongoClient(
+            uri, 
+            server_api=ServerApi('1'), 
+            tlsAllowInvalidCertificates=True
+        )
         try:
             self.client.admin.command('ping')
             self.database = self.client.get_database('userTables')
@@ -28,14 +36,14 @@ class Database:
     def initComplete(self):
         return "yippee! init complete!"
     
-    def createDB(self, userid):
-        if self.client.get_database(userid) != None:
-            print(f"userid:{userid} database already exists")
+    def createDB(self, username):
+        if self.client.get_database(username) != None:
+            print(f"userid:{username} database already exists")
 
     # adds a row with the fields
-    def addRow(self, userid, fields):
+    def addRow(self, username, fields):
         try: 
-            userCollection = self.database.get_collection(userid)
+            userCollection = self.database.get_collection(username)
             rowInfo = {
                 "date": fields[0],
                 "description": fields[1],
@@ -45,40 +53,47 @@ class Database:
             userCollection.insert_one(rowInfo)
         except Exception as e:
             print(e)
+    #takes in the username from post request from /username path
+    #def username(self, username): 
+    #    print(username)
 
+        
     # takes in a userid string, looks for <userid>BankStatements.pdf, parses & adds it to the database, then deletes the pdf
-    def addPDF(self, userid):
+    def addPDF(self, username):
         try:
-            pdfPath = userid + "BankStatements.pdf"
+            pdfPath = os.path.join(app.config['UPLOAD_FOLDER'], username + "BankStatements.pdf")
             if os.path.exists(pdfPath):
-                userCollection = self.database.get_collection(userid) 
+                userCollection = self.database.get_collection(username) 
                 parsedPDF = parsePDF(pdfPath)
                 userCollection.insert_many(parsedPDF)
                 os.remove(pdfPath)
+                return True
             else:
                 print("file does not exist")
+                return False
         except Exception as e:
             print(e)
+            return False
 
     # takes in userid string, objectid integer
-    def findRow(self, userid, objectid):
+    def findRow(self, username, objectid):
         try: 
-            document = self.database.get_collection(userid).find_one({'_id': ObjectId(objectid)})
+            document = self.database.get_collection(username).find_one({'_id': ObjectId(objectid)})
             return document
         except Exception as e:
             print(e)
 
     # takes in userid string, objectid integer
-    def deleteRow(self, userid, objectid):
+    def deleteRow(self, username, objectid):
         try: 
-            self.database.get_collection(userid).find_one_and_delete({'_id': ObjectId(objectid)})
+            self.database.get_collection(username).find_one_and_delete({'_id': ObjectId(objectid)})
         except Exception as e:
             print(e)
     
     # takes in userid string, objectid integer, and a dictionary of newFIelds
-    def updateRow(self, userid, objectid, newFields):
+    def updateRow(self, username, objectid, newFields):
         try: 
-            self.database.get_collection(userid).find_one_and_replace({'_id': ObjectId(objectid)}, newFields)
+            self.database.get_collection(username).find_one_and_replace({'_id': ObjectId(objectid)}, newFields)
         except Exception as e:
             print(e)
         

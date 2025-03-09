@@ -1,22 +1,34 @@
 import React from 'react';
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
+import { useEffect, useState } from "react";
+import { FilePondFile } from "filepond";
+import { useSelector } from "react-redux";
+import { selectCurrentusername } from "@/app/api-slices/userSlice";
 
 const PdfDropZone = () => {
-  return (
-    <div className="flex justify-center items-center bg-white rounded-lg shadow-md p-4">
-      <div className="flex h-full w-full">
-        <div className="w-full h-full">
-          <h2 className="text-xl font-bold">Upload Statement</h2>
-          <FilePond 
-            allowMultiple={true}
-            acceptedFileTypes={['application/pdf']}
-            server="http://127.0.0.1:5000/parsePDF"  
-            labelIdle='Drag & Drop your PDF or <span class="filepond--label-action">Browse</span>'
-          />
-          <p className='text-gray-500 text-xs mt-5'>
-            *Document details will be automatically parsed by Gemini and added to your data
-          </p>
+    const [file, setFiles] = useState<FilePondFile[]>([]);
+    //const username = useSelector(selectCurrentusername)
+
+    useEffect(() => {
+        console.log("Files:", file);
+      }, [file]);
+
+    return (
+        <div className="flex justify-center items-center bg-white rounded-lg shadow-md p-4">
+            <div className='flex h-[15vh] w-full'>
+                <FilePond 
+                    files={file}
+                    onupdatefiles={(fileItems: FilePondFile[]) => {
+                        setFiles(fileItems);
+                    }}
+                    allowMultiple={true}
+                    acceptedFileTypes={['application/pdf']}
+                    name="files"
+                    server="http://127.0.0.1:5000/parsePDF"
+                    labelIdle='Drag & Drop your PDF or <span class="filepond--label-action">Browse</span>'
+                />
+            </div>
         </div>
       </div>
     </div>
