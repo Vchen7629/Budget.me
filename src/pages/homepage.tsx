@@ -6,7 +6,6 @@ import BalanceCard from '../components/BalanceCard';
 import GraphCard from '../components/GraphCard';
 import SpendingsCard from '../components/SpendingsCard';
 import AuthCard from "../components/AuthCard.tsx";
-import { useNavigate } from 'react-router';
 import { Toaster } from "@/components/ui/sonner"
 import PdfDropZone from '@/components/PdfDropZone.tsx';
 import { useGetUserDataQuery, useInitializeGeminiDataMutation } from '@/app/api-slices/usersApiSlice';
@@ -14,7 +13,6 @@ import { useGetUserDataQuery, useInitializeGeminiDataMutation } from '@/app/api-
 const Homepage = () => {
   const { data, isLoading, isError, refetch } = useGetUserDataQuery();
   const [initialBalance, setInitialBalance] = useState(0);
-  const navigate = useNavigate();
   const [ initializeGemini ] = useInitializeGeminiDataMutation();
   
   useEffect(() => {
@@ -38,7 +36,6 @@ const Homepage = () => {
     return <div>No data available</div>;
   }
 
-  // console.log(data);
 
   const incomeHistory = data.filter(item => item.required === -1).map(item => ({
     date: item.date,
@@ -53,17 +50,13 @@ const Homepage = () => {
   const totalIncome = incomeHistory.reduce((acc, curr) => acc + curr.amount, 0);
   const totalSpending = spendingHistory.reduce((acc, curr) => acc + curr.amount, 0);
 
-  // console.log(totalIncome);
-  // console.log(totalSpending);
-
   const currBalance = Number((totalIncome + totalSpending).toFixed(2));
 
-  // console.log(currBalance);
 
   // Function to convert date string to Date object
   function convertToDate(dateString: string) {
     const [day, month, year] = dateString.split('-').map(Number);
-    return new Date(year, month - 1, day); // Months are 0-based in JavaScript
+    return new Date(year, month - 1, day);
   }
 
   // Find the most recent entry in each history
@@ -80,7 +73,6 @@ const Homepage = () => {
     ? mostRecentIncome
     : mostRecentSpending;
 
-  // console.log(mostRecentEntry);
 
   return (
     <div className="min-h-screen bg-gray-100">

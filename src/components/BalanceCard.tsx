@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-// import { PeriodDropdownComponent } from './PeriodDropdown';
 import { Input } from './ui/input';
 
 const BalanceCard: React.FC<{ balance: any, initialBalance: any, setInitialBalance: any }> = 
 ({ balance, initialBalance, setInitialBalance }) => {
-  const [balanceValue, setBalanceValue] = useState(balance);
+  const [balanceValue, _] = useState(balance);
 
-  // console.log(balanceValue)
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;

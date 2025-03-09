@@ -8,7 +8,6 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
   const [spendingValue, setSpendingValue] = useState("");
   const [spendingData, setSpendingData] = useState<any[]>([])
   const [date, setDate] = useState("")
-  const [formattedDate, setFormatedDate] = useState("")
   const [description, setDescription] = useState("")
   const [addNewExpense] = useAddNewExpenseMutation<any[]>()
   const [deleteRow] = useDeleteEntryMutation()
@@ -42,10 +41,25 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
 
   async function handleAddNewSpending() {
     const result = date.split("-")
-    setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
-    await addNewExpense({ spendingValue: spendingValue, description: description, date: formattedDate}).unwrap()
-    toast.success("Successfully added new spending source")
-    refetch()
+    const newFormattedDate = `${result[1]}-${result[2]}-${result[0]}`
+    
+    try {
+      await addNewExpense({ 
+        spendingValue: spendingValue, 
+        description: description, 
+        date: newFormattedDate 
+      }).unwrap()
+      
+      toast.success("Successfully added new income stream")
+      refetch()
+      
+      setSpendingValue("")
+      setDescription("")
+      setDate("")
+    } catch (error) {
+      toast.error("Failed to add income stream")
+      console.error(error)
+    }
   }
 
   async function handleDeleteRow(id: string) {

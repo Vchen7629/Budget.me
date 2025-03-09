@@ -5,7 +5,6 @@ import { FilePondFile } from "filepond";
 
 const PdfDropZone = ({ refetch }: any) => {
     const [_, setFiles] = useState<FilePondFile[]>([]);
-    //const username = useSelector(selectCurrentusername)
 
     return (
         <div className="flex justify-center items-center bg-white rounded-lg shadow-md p-4">
