@@ -19,10 +19,12 @@ class GeminiChat:
     in around 200 words.'''
         self.chat.send_message(prompt)
     
+    # prompts AI using the user's prompt
     def sendChat(self, text):
         response = self.chat.send_message(text)
         return response.text
     
+    # prompts AI to update the data it is referencing for responses
     def updateData(self, newDocs, newBal):
         prompt = f'''Your client's data has been updated. Their initial balance is now {newBal} USD, and their 
         new transactions list is below. {newDocs} From now on, answer the client's questions based on their new data'''
