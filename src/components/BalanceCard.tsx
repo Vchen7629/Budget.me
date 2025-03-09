@@ -4,17 +4,24 @@ import { Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
 
-const BalanceCard: React.FC<{ data: any }> = ({ data }) => {
-  const [balanceValue, setBalanceValue] = useState("");
+const BalanceCard: React.FC<{ balance: any, initialBalance: any, setInitialBalance: any }> = 
+({ balance, initialBalance, setInitialBalance }) => {
+  console.log(balance)
+  const [balanceValue, setBalanceValue] = useState(balance);
+
+  console.log(balanceValue)
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
-
-    setBalanceValue(value);
+    if (parseInt(value) > 0) {
+      setInitialBalance(parseInt(value));
+    } else {
+      setInitialBalance(0);
+    }
   }
 
-  function handleAddNewIncome() {
-    toast.success("Successfully added income")
+  function handleEditBalance() {
+    toast.success("Successfully Edited Balance")
   }
 
   return (
@@ -23,7 +30,7 @@ const BalanceCard: React.FC<{ data: any }> = ({ data }) => {
       <div className="md:col-span-3 bg-white rounded-lg shadow-md p-4 ">
         <h2 className="text-xl font-bold mb-4">Balance</h2>
         {/* Add last balance from Data here instead of a bajillion monies*/}
-        <h1 className='text-3xl font-bold'>{balanceValue}</h1>
+        <h1 className='text-3xl font-bold'>${balanceValue}</h1>
       </div>
 
       {/* Add Balance Panel */}
@@ -34,9 +41,9 @@ const BalanceCard: React.FC<{ data: any }> = ({ data }) => {
           {/* balance is only accessed once right? */}
         </div>  
         <div className="flex justify-between space-x-2">
-          <Input value={balanceValue} onChange={handleInputChange} type="amount" placeholder="Enter Amount" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={initialBalance} onChange={handleInputChange} type="amount" placeholder="Enter Amount" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
           {/* MAKE A FUNCTION TO CHANGE BALANCE HISTORY END ENTRY */}
-          <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
+          <button onClick={handleEditBalance} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
             <Plus className='text-white w-4'/>
           </button>
         </div>
