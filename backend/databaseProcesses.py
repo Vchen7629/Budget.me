@@ -31,7 +31,7 @@ def returnYippee():
 
 @app.route('/viewData', methods=['GET'])
 def returnData():
-    return databaseInstance.pullData('hi')
+    return databaseInstance.pullData('Auth')
 
 @app.route('/addSingle', methods=['POST'])
 def addData():
@@ -69,7 +69,7 @@ def Upload():
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     file.save(save_path)
 
-    if databaseInstance.addPDF("hi"):
+    if databaseInstance.addPDF("Auth"):
         return jsonify({'status': 'success', 'message': 'successfully added pdf'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'error adding pdf'}), 400
