@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request, json, session
 from flask_cors import CORS, cross_origin
 from datetime import datetime
+from geminiAnalysis import GeminiChat
 import os
-
 
 from mongoDB import Database
 
@@ -18,6 +18,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.secret_key = 'your_secret_key'
 
 databaseInstance = Database()
+geminiChatInstance = GeminiChat()
 
 @app.route('/H', methods=['GET'])
 def returnYippee():
@@ -119,10 +120,44 @@ def addEntry():
     databaseInstance.addRow("Auth", [date, description, amount, required])
     return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
     
-@app.route('/removeEntry', methods=['POST'])
+@app.route('/removeEntry', methods=['DELETE'])
 def removeEntry():
-    id = request.form.get('id')
-    if databaseInstance.deleteRow("Auth", id):
+    id = None
+    
+    # Check if JSON data
+    if request.is_json:
+        id = request.json.get('id')
+    # Check form data
+    else:
+        id = request.form.get('id')
+        
+    # If still None, try to get from URL parameters
+    if id is None:
+        id = request.args.get('id')
+    
+    print(f"Attempting to delete document with id: {id}")
+    
+    if id and databaseInstance.deleteRow("Auth", id):
         return jsonify({'status': 'success', 'message': 'successfully removed row'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'error removing row'}), 400
+
+
+@app.route('/sendChat', methods=['POST'])
+def sendChat():
+    text = request.form.get('text')
+    geminiChatInstance.recievePrompt(text)
+    return jsonify({'status': 'success', 'message': 'successfully sent chat'}), 200
+
+@app.route('/recieveResponse', methods=['GET'])
+def recieveResponse():
+    return jsonify({'response': geminiChatInstance.sendResponse()})
+
+@app.route('/updateData', methods=['POST'])
+def updateData():
+    docs = databaseInstance.pullData("Auth")
+    initBal = request.form.get('initBal')
+    spendLimit = request.form.get('spendLimit')
+
+    geminiChatInstance.updateData(docs, initBal, spendLimit)
+    return jsonify({'status': 'success', 'message': 'data successfully updated'}), 200
