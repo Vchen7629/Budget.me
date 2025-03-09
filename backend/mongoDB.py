@@ -7,15 +7,17 @@ import certifi
 from flask import Flask, jsonify, request
 from geminiTesting import parsePDF
 from bson.objectid import ObjectId
-from geminiAnalysis import geminiAnalyze
+#from geminiAnalysis import geminiAnalyze
+from geminiAnalysis import GeminiChat
+
 
 
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
 
-# uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 # uri = "mongodb+srv://matthewkim1117:" + mongodbPass + "@hackmercedbudgeting.7kgt3.mongodb.net/?retryWrites=true&w=majority&appName=HackMercedBudgeting"
-uri = "mongodb+srv://evalu802:" + mongodbPass + "@yeahhhhhhhbabyyyyyyy.qbk0a.mongodb.net/?retryWrites=true&w=majority&appName=YEAHHHHHHHBABYYYYYYY"
+#uri = "mongodb+srv://evalu802:" + mongodbPass + "@yeahhhhhhhbabyyyyyyy.qbk0a.mongodb.net/?retryWrites=true&w=majority&appName=YEAHHHHHHHBABYYYYYYY"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -86,11 +88,16 @@ class Database:
 
     # takes in userid string, objectid integer
     def deleteRow(self, username, objectid):
-        try: 
-            self.database.get_collection(username).find_one_and_delete({'_id': ObjectId(objectid)})
-            return True
+        try:
+            result = self.database.get_collection(username).find_one_and_delete({'_id': ObjectId(objectid)})
+            if result:
+                print(f"Successfully deleted document: {result}")
+                return True
+            else:
+                print(f"No document found with id: {objectid}")
+                return False
         except Exception as e:
-            print(e)
+            print(f"Error deleting document: {e}")
             return False
     
     # takes in userid string, objectid integer, and a dictionary of newFIelds
@@ -104,7 +111,7 @@ class Database:
         data = self.database.get_collection(userid).find()
         stringify = Database.csvify(data)
 
-        return geminiAnalyze(stringify, initBal)
+        return GeminiChat(stringify, initBal)
         # return geminiAnalyze(data, initBal)
 
     # convert list of mongodb docs to a csv

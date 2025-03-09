@@ -27,7 +27,7 @@ class GeminiChat:
         return self.recentChat
     
     def sendResponse(self):
-        return self.recentChat
+        return self.recentChat.text
 
     # prompts AI to update the data it is referencing for responses
     def updateData(self, newDocs, newBal, spendingGoal):
