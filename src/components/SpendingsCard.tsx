@@ -8,6 +8,7 @@ const SpendingsCard: React.FC<{ data: any }> = ({ data }) => {
   const [spendingValue, setSpendingValue] = useState("");
   const [spendingData, setSpendingData] = useState<any[]>([])
   const [date, setDate] = useState("")
+  const [formattedDate, setFormatedDate] = useState("")
   const [description, setDescription] = useState("")
   const [addNewExpense] = useAddNewExpenseMutation<any[]>()
   
@@ -40,7 +41,9 @@ const SpendingsCard: React.FC<{ data: any }> = ({ data }) => {
   }
 
   async function handleAddNewSpending() {
-    await addNewExpense({ spendingValue: spendingValue, description: description, date: date}).unwrap()
+    const result = date.split("-")
+    setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
+    await addNewExpense({ spendingValue: spendingValue, description: description, date: formattedDate}).unwrap()
     toast.success("Successfully added new spending source")
   }
 

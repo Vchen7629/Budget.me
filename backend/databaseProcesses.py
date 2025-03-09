@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, request
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, json, session
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 import os
@@ -77,6 +76,30 @@ def addEntry():
     description = request.form.get('description')
     amount = request.form.get('amount')
     required = request.form.get('required')
+    
+    if request.is_json:
+        data = request.json
+        date = data.get('date')
+        description = data.get('description')
+        amount = data.get('amount')
+        required = data.get('required')
+    else:
+        # Try form data
+        date = request.form.get('date')
+        description = request.form.get('description') 
+        amount = request.form.get('amount')
+        required = request.form.get('required')
+        
+        # If form data is empty, try parsing the raw data as JSON
+        if date is None and request.data:
+            try:
+                data = json.loads(request.data)
+                date = data.get('date')
+                description = data.get('description')
+                amount = data.get('amount')
+                required = data.get('required')
+            except:
+                pass
     
     try:
         date = datetime.strptime(date, '%m-%d-%Y')
