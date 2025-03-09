@@ -15,8 +15,6 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
   useEffect(() => {
     if (data) {
       setIncomeData(data)
-      console.log(data)
-      console.log(incomeData)
     } 
   }, [data])
 

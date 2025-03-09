@@ -18,7 +18,6 @@ const Homepage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await initializeGemini();
-      console.log(result);
     };
     
     fetchData();
