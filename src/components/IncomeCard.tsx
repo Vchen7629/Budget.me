@@ -67,7 +67,7 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
               >
                 <div>{income?.date}</div>
                 <div>{income?.description}</div>
-                <div className='text-green-500'>${income?.amount}</div>
+                <div className='text-green-500'>${income?.amount.toFixed(2)}</div>
                 <button onClick={() => {handleDeleteRow(income?.id)}} className='flex bg-red-400 rounded-lg'>
                   <MinusIcon />
                 </button>
