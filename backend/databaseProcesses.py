@@ -24,7 +24,7 @@ databaseInstance = Database()
 def returnYippee():
 
     # print(databaseInstance.analyzeData("user0", 8300))
-    # print(databaseInstance.pullData("Auth"))
+    print(databaseInstance.pullData("Auth"))
 
     return "yip"
 
@@ -95,3 +95,7 @@ def addEntry():
     databaseInstance.addRow("Auth", [date, description, amount, required])
     return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
     
+# @app.route('/removeEntry', methods=['POST'])
+# def removeEntry():
+#     id = request.form.get('id')
+#     databaseInstance.deleteRow("Auth")

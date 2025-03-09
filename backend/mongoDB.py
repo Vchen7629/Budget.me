@@ -110,7 +110,7 @@ class Database:
     def csvify(data):
         csvString = "id, date, description, amount, required\n"
         for doc in data:
-            csvString = csvString + f"{doc['_id'].toString()}, {doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
+            csvString = csvString + f"{str(doc['_id'])}, {doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
         return csvString
     
     def pullData(self, username):
