@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { TrendingUp, TrendingDown, DollarSign, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { PeriodDropdownComponent } from './PeriodDropdown';
 import { toast } from 'sonner';
-import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
+import { useAddNewIncomeSourceMutation } from '@/app/api-slices/usersApiSlice';
 
-const IncomeCard: React.FC = () => {
-  const [incomeValue, setIncomeValue] = useState("");
-  const { data } = useGetUserDataQuery();
+const IncomeCard: React.FC<{ data: any }> = ({ data }) => {
   const [incomeData, setIncomeData] = useState<any[]>([])
+  const [incomeValue, setIncomeValue] = useState("");
+  const [date, setDate] = useState("");
+  const [formattedDate, setFormatedDate] = useState("")
+  const [desc, setDesc] = useState("");
+  const [addNewIncome] = useAddNewIncomeSourceMutation()
 
   useEffect(() => {
     if (data) {
@@ -18,20 +21,30 @@ const IncomeCard: React.FC = () => {
     } 
   }, [data])
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleIncomeFieldChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
     setIncomeValue(value);
   }
 
-  function handleAddNewIncome() {
-    toast.success("Successfully added new income stream")
+  function handleDateFieldChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+
+    setDate(value);
   }
 
-  useEffect(() => {
+  function handleDescFieldChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
 
-  })
+    setDesc(value);
+  }
 
+  async function handleAddNewIncome() {
+    const result = date.split("-")
+    setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
+    toast.success("Successfully added new income stream")
+    await addNewIncome({ incomeValue: incomeValue, description: desc, date: formattedDate}).unwrap()
+  }
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -40,7 +53,7 @@ const IncomeCard: React.FC = () => {
         <h2 className="text-xl font-bold mb-4">Income</h2>
         <div className="overflow-auto max-h-[500px]">
           {incomeData.filter(incomeData => incomeData.required === -1)
-          .map((income, index) => (
+          .map((income, _) => (
               <div 
                 key={income.id}
                 className="flex justify-between"
@@ -58,12 +71,16 @@ const IncomeCard: React.FC = () => {
         <div className='flex justify-between'>
           <h2 className="text-lg font-bold mb-4">Add New Income</h2>
           <PeriodDropdownComponent />
-        </div>  
-        <div className="flex justify-between space-x-2">
-          <Input value={incomeValue} onChange={handleInputChange} type="amount" placeholder="Enter Amount Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
-          <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
-            <Plus className='text-white w-4'/>
-          </button>
+        </div>
+        <div className='flex flex-col space-y-4'>
+          <Input value={date} onChange={handleDateFieldChange} type="date" placeholder="mm/dd/yyyy" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <Input value={desc} onChange={handleDescFieldChange} type="text" placeholder="Enter Description" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+          <div className="flex justify-between space-x-2">
+          <Input value={incomeValue} onChange={handleIncomeFieldChange} type="number" placeholder="Enter Amount Per Period" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
+            <button onClick={handleAddNewIncome} className='flex items-center justify-center bg-green-400 w-[15%] rounded-lg'>
+              <Plus className='text-white w-4'/>
+            </button>
+          </div>
         </div>
       </div>
     </div>

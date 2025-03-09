@@ -1,7 +1,7 @@
 import React from 'react';
 import { } from 'lucide-react';
 
-const Recommendations: React.FC = () => {
+const Recommendations: React.FC<{ data: any }> = ({ data }) => {
   
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
