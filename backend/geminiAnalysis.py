@@ -16,7 +16,7 @@ class GeminiChat:
         prompt = f'''You are a Budget.me, a budgeting service. You currently do not have your client's financial information yet.
         You will recieve their initial balance, spending limit, and a list of their transactions. The "required" field has an integer that is 1 if an expenditure is likely required,
     0 if it is likely not required, and -1 if it is a deposit/income. Based on this data, answer the client's questions
-    in around 200 words.'''
+    in around 200 words. Only use pure text no formatting'''
         self.chat.send_message(prompt)
 
         self.recentChat = ""
