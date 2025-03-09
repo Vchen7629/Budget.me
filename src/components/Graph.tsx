@@ -2,13 +2,33 @@ import React, { useState } from 'react';
 import { Data } from '../types';
 
 interface GraphProps {
-  data: Data;
+  data?: Data;
   width?: number;
   height?: number;
 }
 
 const Graph: React.FC<GraphProps> = ({
-  data,
+  data = {
+    balanceHistory: [
+      { date: '2024-01-01', amount: 1 },
+      { date: '2024-01-15', amount: 2 },
+      { date: '2024-02-01', amount: 3 },
+      { date: '2024-02-15', amount: 4 },
+      { date: '2024-03-01', amount: 5 },
+      { date: '2024-03-15', amount: 6 },
+      { date: '2024-04-01', amount: 7 },
+      { date: '2024-04-15', amount: 8 },
+      { date: '2024-05-01', amount: 9 },
+    ],
+    spendingHistory: [
+      { date: '2024-01-01', amount: 0 },
+      { date: '2024-01-15', amount: 1 },
+      { date: '2024-02-01', amount: 2 },
+      { date: '2024-02-15', amount: 3 },
+      { date: '2024-03-01', amount: 4 },
+      { date: '2024-03-15', amount: 5 },
+      { date: '2024-04-30', amount: 8 },
+    ]},
   width = 300,
   height = 150
 }) => {
@@ -224,9 +244,9 @@ const Graph: React.FC<GraphProps> = ({
       
       <div className="mt-2 flex justify-between text-sm">
         <span className="font-medium">${balanceHistory[balanceHistory.length - 1].amount.toFixed(2)}</span>
-        <span className={balanceHistory[balanceHistory.length - 1].amount - spendingHistory[spendingHistory.length - 1].amount > 0 ? 'text-green-600' : 'text-red-600'}>
+        {/* <span className={balanceHistory[balanceHistory.length - 1].amount - spendingHistory[spendingHistory.length - 1].amount > 0 ? 'text-green-600' : 'text-red-600'}>
           {(balanceHistory[balanceHistory.length - 1].amount - spendingHistory[spendingHistory.length - 1].amount).toFixed(2)}%
-        </span>
+        </span> */}
       </div>
     </div>
   );

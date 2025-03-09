@@ -1,3 +1,4 @@
+import React from 'react';
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 import { useEffect, useState } from "react";
@@ -29,7 +30,9 @@ const PdfDropZone = () => {
                 />
             </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default PdfDropZone
+export default PdfDropZone;

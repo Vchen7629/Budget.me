@@ -7,7 +7,6 @@ import GraphCard from '../components/GraphCard';
 import SpendingsCard from '../components/SpendingsCard';
 import AuthCard from "../components/AuthCard.tsx";
 import { useNavigate } from 'react-router';
-import { LucideLogIn } from 'lucide-react';
 import { Toaster } from "@/components/ui/sonner"
 import PdfDropZone from '@/components/PdfDropZone.tsx';
 
@@ -20,9 +19,9 @@ const Homepage = () => {
     return (
       <div className="min-h-screen bg-gray-100">
         <Toaster richColors expand={true} className='z-50'/>
-        <header className="flex items-center px-[2vw] justify-between bg-blue-600 text-white shadow-md">
+        <header className="flex items-center px-[2vw] justify-between bg-green-600 text-white shadow-md">
           <div className="container mx-auto px-4 py-4">
-            <h1 className="text-2xl font-bold">Budget App (name pending)</h1>
+            <h1 className="text-2xl font-bold">Budget.me</h1>
           </div>
           <div className="flex">
             <AuthCard />
@@ -31,7 +30,7 @@ const Homepage = () => {
 
         <main className="container mx-auto px-4 py-6">
 
-          {/* left side menu on pc */}
+          {/* left side menus on pc */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <GraphCard />
@@ -40,7 +39,7 @@ const Homepage = () => {
               <SpendingsCard />
             </div>
 
-          {/* right side menu on pc */}
+          {/* right side menus on pc */}
             <div className="space-y-6">
               <PdfDropZone />
               <GoalDisplay />
@@ -51,7 +50,7 @@ const Homepage = () => {
 
         <footer className="z-10 bg-gray-800 text-white py-4 mt-8">
           <div className="container mx-auto px-4 text-center text-sm">
-            Budget App (name pending) &copy; 2025
+            Budget.me &copy; 2025
           </div>
         </footer>
       </div>
