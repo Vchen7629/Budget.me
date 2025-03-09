@@ -14,7 +14,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 { type: 'User', id: "LIST" }
             ]
         }),
-        GetUserData: builder.query<any[], any[]>({
+        GetUserData: builder.query<any[], void>({
             query: () => ({
                 url: `/viewData`,
                 method: "GET",
