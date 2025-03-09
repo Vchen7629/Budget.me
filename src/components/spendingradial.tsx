@@ -1,13 +1,11 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -52,12 +50,15 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
 
     }, [totalExpense, goalAmount])
     
-    const totalVisitors = chartData[0].goal /chartData[0].spending
+    const percentOfGoal = chartData[0].goal === 0 
+    ? 0 
+    : (chartData[0].spending / chartData[0].goal) * 100;
+
 
     return (
         <Card className="flex flex-col">
         <CardHeader className="items-center pb-0">
-            <CardTitle className="text-lg">Your Spending Goal Progress</CardTitle>
+            <CardTitle className="text-lg">Your Spending Limit Progress</CardTitle>
             <CardDescription>Last 30 days</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-1 items-center pb-0">
@@ -86,14 +87,14 @@ export function SpendingGoalChart({ data, goalAmount }: any) {
                             y={(viewBox.cy || 0) - 16}
                             className="fill-foreground text-2xl font-bold"
                             >
-                            {(totalVisitors).toFixed(2)}%
+                            {(percentOfGoal).toFixed(2)}%
                             </tspan>
                             <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 4}
                             className="fill-muted-foreground"
                             >
-                            left till spending goal
+                            left till spending limit
                             </tspan>
                         </text>
                         )

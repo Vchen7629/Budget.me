@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MinusIcon, Plus } from 'lucide-react';
 import { Input } from './ui/input';
-import { PeriodDropdownComponent } from './PeriodDropdown';
 import { toast } from 'sonner';
 import { useAddNewIncomeSourceMutation, useDeleteEntryMutation } from '@/app/api-slices/usersApiSlice';
 
@@ -9,7 +8,6 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
   const [incomeData, setIncomeData] = useState<any[]>([])
   const [incomeValue, setIncomeValue] = useState("");
   const [date, setDate] = useState("");
-  const [formattedDate, setFormatedDate] = useState("")
   const [desc, setDesc] = useState("");
   const [addNewIncome] = useAddNewIncomeSourceMutation()
   const [deleteRow] = useDeleteEntryMutation()
@@ -42,10 +40,27 @@ const IncomeCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch }) =>
 
   async function handleAddNewIncome() {
     const result = date.split("-")
-    setFormatedDate(`${result[1]}-${result[2]}-${result[0]}`)
-    toast.success("Successfully added new income stream")
-    refetch()
-    await addNewIncome({ incomeValue: incomeValue, description: desc, date: formattedDate}).unwrap()
+    const newFormattedDate = `${result[1]}-${result[2]}-${result[0]}`
+    
+    try {
+      await addNewIncome({ 
+        incomeValue: incomeValue, 
+        description: desc, 
+        date: newFormattedDate  // Use the value directly
+      }).unwrap()
+      
+      // Only show success and refetch after successful API call
+      toast.success("Successfully added new income stream")
+      refetch()
+      
+      // Clear form fields for next entry
+      setIncomeValue("")
+      setDesc("")
+      setDate("")
+    } catch (error) {
+      toast.error("Failed to add income stream")
+      console.error(error)
+    }
   }
 
   async function handleDeleteRow(id: string) {
