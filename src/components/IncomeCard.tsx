@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { PeriodDropdownComponent } from './PeriodDropdown';
 import { toast } from 'sonner';
+import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
 
 const IncomeCard: React.FC = () => {
   const [incomeValue, setIncomeValue] = useState("");
+  const { data, isLoading, error} = useGetUserDataQuery();
+
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+    }
+  }, [data])
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -16,6 +24,10 @@ const IncomeCard: React.FC = () => {
   function handleAddNewIncome() {
     toast.success("Successfully added new income stream")
   }
+
+  useEffect(() => {
+
+  })
 
   
   return (

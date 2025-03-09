@@ -12,9 +12,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 { type: 'User', id: "LIST" }
             ]
         }),
-        GetUserData: builder.query<any | null, string>({
+        GetUserData: builder.query<any | null, void>({
             query: () => ({
-                url: `/viewdata`,
+                url: `/viewData`,
                 method: "GET",
             }),
             transformResponse: (responseData) => {
@@ -25,5 +25,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 })
 
 export const { 
-    useSendUsernameMutation
+    useSendUsernameMutation,
+    useGetUserDataQuery
 } = usersApiSlice

@@ -30,7 +30,7 @@ def returnYippee():
 
 @app.route('/viewData', methods=['GET'])
 def returnData():
-    return databaseInstance.pullData('user0')
+    return databaseInstance.pullData('hi')
 
 @app.route('/addSingle', methods=['POST'])
 def addData():

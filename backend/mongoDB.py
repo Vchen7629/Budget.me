@@ -115,8 +115,8 @@ class Database:
             csvString = csvString + f"{doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
         return csvString
     
-    def pullData(self, userid):
-        data = self.database.get_collection(userid).find()
+    def pullData(self, username):
+        data = self.database.get_collection(username).find()
         return data
 
 
