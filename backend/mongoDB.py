@@ -15,9 +15,9 @@ from geminiAnalysis import GeminiChat
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
 
-uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# uri = "mongodb+srv://vchen7629:" + mongodbPass + "@cluster0.aqoun.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 # uri = "mongodb+srv://matthewkim1117:" + mongodbPass + "@hackmercedbudgeting.7kgt3.mongodb.net/?retryWrites=true&w=majority&appName=HackMercedBudgeting"
-#uri = "mongodb+srv://evalu802:" + mongodbPass + "@yeahhhhhhhbabyyyyyyy.qbk0a.mongodb.net/?retryWrites=true&w=majority&appName=YEAHHHHHHHBABYYYYYYY"
+uri = "mongodb+srv://evalu802:" + mongodbPass + "@yeahhhhhhhbabyyyyyyy.qbk0a.mongodb.net/?retryWrites=true&w=majority&appName=YEAHHHHHHHBABYYYYYYY"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
