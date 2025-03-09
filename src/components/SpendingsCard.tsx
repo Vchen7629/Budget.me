@@ -63,7 +63,7 @@ const SpendingsCard: React.FC<{ data: any, refetch: any }> = ({ data, refetch })
                 >
                   <div>{income?.date}</div>
                   <div>{income?.description}</div>
-                  <div className='text-red-500'>${income?.amount}</div>
+                  <div className='text-red-500'>${income?.amount.toFixed(2)}</div>
                 </div>          
             ))}
         </div>
