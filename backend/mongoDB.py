@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import json
 from geminiTesting import parsePDF
 from bson.objectid import ObjectId
+from geminiAnalysis import geminiAnalyze
 
 load_dotenv()
 mongodbPass = os.getenv("MONGODB_PASS")
@@ -29,8 +30,10 @@ class Database:
         return "yippee! init complete!"
     
     def createDB(self, userid):
-        if self.client.get_database(userid) != None:
-            print(f"userid:{userid} database already exists")
+        try:
+            self.database.create_collection(userid)
+        except Exception as e:
+            print(e)
 
     # adds a row with the fields
     def addRow(self, userid, fields):
@@ -81,4 +84,15 @@ class Database:
             self.database.get_collection(userid).find_one_and_replace({'_id': ObjectId(objectid)}, newFields)
         except Exception as e:
             print(e)
+
+    def analyzeData(self, userid, initBal):
+        data = self.database.get_collection(userid).find()
+        stringify = "date, description, amount, required\n"
+        for doc in data:
+            stringify = stringify + f"{doc['date']}, {doc['description']}, {doc['amount']}, {doc['required']}\n"
+
+        return geminiAnalyze(stringify, initBal)
+        # return geminiAnalyze(data, initBal)
+
+        
         
