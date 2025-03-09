@@ -102,9 +102,9 @@ class Database:
 
     def analyzeData(self, userid, initBal):
         data = self.database.get_collection(userid).find()
-        stringify = csvify(data)
+        stringify = Database.csvify(data)
 
-        # return geminiAnalyze(stringify, initBal)
+        return geminiAnalyze(stringify, initBal)
         # return geminiAnalyze(data, initBal)
 
     # convert list of mongodb docs to a csv
@@ -117,7 +117,7 @@ class Database:
     
     def pullData(self, userid):
         data = self.database.get_collection(userid).find()
-        return data
+        return Database.csvify(data)
 
 
         

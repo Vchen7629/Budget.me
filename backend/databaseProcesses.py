@@ -24,7 +24,8 @@ def returnYippee():
     # databaseInstance.createDB("user0")
     # databaseInstance.addPDF("user0")
 
-    print(databaseInstance.analyzeData("user0", 8300))
+    # print(databaseInstance.analyzeData("user0", 8300))
+    print(databaseInstance.pullData("user0"))
 
     return "yip"
 
