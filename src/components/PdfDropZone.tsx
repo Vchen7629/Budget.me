@@ -30,8 +30,6 @@ const PdfDropZone = () => {
                 />
             </div>
         </div>
-      </div>
-    </div>
   );
 };
 
