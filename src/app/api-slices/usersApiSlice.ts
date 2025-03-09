@@ -31,11 +31,48 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     }
                 }).data
             },
+        }),
+        AddNewIncomeSource: builder.mutation<any[], { incomeValue: string, description: string, date: string } >({
+            query: ({ incomeValue, description, date}) => {
+                const formData = new FormData()
+                formData.append('date', date)
+                formData.append('description', description)
+                formData.append('amount', incomeValue)
+                formData.append('required', "-1")
+
+                return {
+                    url: '/addEntry',
+                    method: 'POST',
+                    body: formData,
+                    formData: true,
+                }
+            },
+            invalidatesTags: [
+                { type: 'User', id: "LIST" }
+            ]
+        }),
+        AddNewExpense: builder.mutation<any[], { spendingValue: string, description: string, date: string }>({
+            query: ({ spendingValue, description, date }) => {
+                const formData = new FormData()
+                formData.append('date', date)
+                formData.append('description', description)
+                formData.append('amount', spendingValue)
+                formData.append('required', "1")
+                
+                return {
+                    url: `/addEntry`,
+                    method: 'POST',
+                    body: formData,
+                    formData: true,
+                };
+            },
         })
     }),
 })
 
 export const { 
     useSendUsernameMutation,
-    useGetUserDataQuery
+    useGetUserDataQuery,
+    useAddNewIncomeSourceMutation,
+    useAddNewExpenseMutation
 } = usersApiSlice

@@ -44,20 +44,19 @@ class Database:
 
     # adds a row with the fields
     def addRow(self, username, fields):
+        print(fields)
         try: 
             userCollection = self.database.get_collection(username)
             rowInfo = {
                 "date": fields[0],
                 "description": fields[1],
                 "amount": float(fields[2]),
-                "required": bool(fields[3])
+                "required": (fields[3])
             }
             userCollection.insert_one(rowInfo)
+            return jsonify({ "message": "Successfully Added New Row to DB", "status": "success"}), 200
         except Exception as e:
             print(e)
-    #takes in the username from post request from /username path
-    #def username(self, username): 
-    #    print(username)
 
         
     # takes in a userid string, looks for <userid>BankStatements.pdf, parses & adds it to the database, then deletes the pdf
@@ -89,8 +88,10 @@ class Database:
     def deleteRow(self, username, objectid):
         try: 
             self.database.get_collection(username).find_one_and_delete({'_id': ObjectId(objectid)})
+            return True
         except Exception as e:
             print(e)
+            return False
     
     # takes in userid string, objectid integer, and a dictionary of newFIelds
     def updateRow(self, username, objectid, newFields):

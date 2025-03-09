@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, request
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, json, session
 from flask_cors import CORS, cross_origin
 from datetime import datetime
 import os
@@ -34,6 +33,7 @@ def returnData():
 
 @app.route('/addSingle', methods=['POST'])
 def addData():
+    databaseInstance.addRow("Auth")
     return
 
 @app.route("/username", methods=['POST'])
@@ -77,6 +77,30 @@ def addEntry():
     amount = request.form.get('amount')
     required = request.form.get('required')
     
+    if request.is_json:
+        data = request.json
+        date = data.get('date')
+        description = data.get('description')
+        amount = data.get('amount')
+        required = data.get('required')
+    else:
+        # Try form data
+        date = request.form.get('date')
+        description = request.form.get('description') 
+        amount = request.form.get('amount')
+        required = request.form.get('required')
+        
+        # If form data is empty, try parsing the raw data as JSON
+        if date is None and request.data:
+            try:
+                data = json.loads(request.data)
+                date = data.get('date')
+                description = data.get('description')
+                amount = data.get('amount')
+                required = data.get('required')
+            except:
+                pass
+    
     try:
         date = datetime.strptime(date, '%m-%d-%Y')
     except ValueError:
@@ -95,7 +119,10 @@ def addEntry():
     databaseInstance.addRow("Auth", [date, description, amount, required])
     return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
     
-# @app.route('/removeEntry', methods=['POST'])
-# def removeEntry():
-#     id = request.form.get('id')
-#     databaseInstance.deleteRow("Auth")
+@app.route('/removeEntry', methods=['POST'])
+def removeEntry():
+    id = request.form.get('id')
+    if databaseInstance.deleteRow("Auth", id):
+        return jsonify({'status': 'success', 'message': 'successfully removed row'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'error removing row'}), 400
