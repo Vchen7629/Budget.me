@@ -95,6 +95,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             transformResponse: (responseData: string) => {
                 return [{ message: responseData }];
             },
+        }),
+        initializeGeminiData: builder.mutation<void, void>({
+            query: () => ({
+                url: "/updateDocs",
+                method: "POST",
+            })
         })
 
     }),
@@ -108,4 +114,5 @@ export const {
     useDeleteEntryMutation,
     useSendNewChatMutation,
     useGetChatResponseQuery,
+    useInitializeGeminiDataMutation
 } = usersApiSlice

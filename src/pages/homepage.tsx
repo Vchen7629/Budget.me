@@ -9,12 +9,22 @@ import AuthCard from "../components/AuthCard.tsx";
 import { useNavigate } from 'react-router';
 import { Toaster } from "@/components/ui/sonner"
 import PdfDropZone from '@/components/PdfDropZone.tsx';
-import { useGetUserDataQuery } from '@/app/api-slices/usersApiSlice';
+import { useGetUserDataQuery, useInitializeGeminiDataMutation } from '@/app/api-slices/usersApiSlice';
 
 const Homepage = () => {
   const { data, isLoading, isError, refetch } = useGetUserDataQuery();
   const [initialBalance, setInitialBalance] = useState(0);
   const navigate = useNavigate();
+  const [ initializeGemini ] = useInitializeGeminiDataMutation();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await initializeGemini();
+      console.log(result);
+    };
+    
+    fetchData();
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

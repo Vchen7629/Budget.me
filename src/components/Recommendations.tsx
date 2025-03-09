@@ -12,6 +12,7 @@ const Recommendations: React.FC<{ data: any }> = ({ data }) => {
 
   const prevDataRef = useRef<typeof chatgptdata>();
   
+  
   useEffect(() => {
     // Only update if chatgptdata exists and is different from the previous data
     if (chatgptdata && 
