@@ -88,8 +88,10 @@ class Database:
     def deleteRow(self, username, objectid):
         try: 
             self.database.get_collection(username).find_one_and_delete({'_id': ObjectId(objectid)})
+            return True
         except Exception as e:
             print(e)
+            return False
     
     # takes in userid string, objectid integer, and a dictionary of newFIelds
     def updateRow(self, username, objectid, newFields):

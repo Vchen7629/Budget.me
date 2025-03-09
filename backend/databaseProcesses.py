@@ -95,7 +95,10 @@ def addEntry():
     databaseInstance.addRow("Auth", [date, description, amount, required])
     return jsonify({'status': 'success', 'message': 'successfully added row'}), 200
     
-# @app.route('/removeEntry', methods=['POST'])
-# def removeEntry():
-#     id = request.form.get('id')
-#     databaseInstance.deleteRow("Auth")
+@app.route('/removeEntry', methods=['POST'])
+def removeEntry():
+    id = request.form.get('id')
+    if databaseInstance.deleteRow("Auth"):
+        return jsonify({'status': 'success', 'message': 'successfully removed row'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'error removing row'}), 400
