@@ -30,7 +30,7 @@ const Homepage = () => {
 
         <main className="container mx-auto px-4 py-6">
 
-          {/* left side menu on pc */}
+          {/* left side menus on pc */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
               <GraphCard />
@@ -39,7 +39,7 @@ const Homepage = () => {
               <SpendingsCard />
             </div>
 
-          {/* right side menu on pc */}
+          {/* right side menus on pc */}
             <div className="space-y-6">
               <PdfDropZone />
               <GoalDisplay />

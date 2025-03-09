@@ -20,6 +20,10 @@ import {
 
 const frameworks = [
   {
+    value: "once",
+    label: "Once",
+  },
+  {
     value: "hour",
     label: "Hour",
   },
@@ -52,7 +56,7 @@ export function PeriodDropdownComponent() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[15vw] justify-between border-2 border-gray-400"
+          className="justify-between border-2 border-gray-400"
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
@@ -60,7 +64,7 @@ export function PeriodDropdownComponent() {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 text-blue-600 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[15vw] p-0 border-none">
+      <PopoverContent className="p-0 border-none">
         <Command>
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>

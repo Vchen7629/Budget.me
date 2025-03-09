@@ -29,8 +29,9 @@ const BalanceCard: React.FC = () => {
       {/* Add Balance Panel */}
       <div className="md:col-span-2 bg-white rounded-lg shadow-md p-4">
         <div className='flex justify-between'>
-          <h2 className="text-lg font-bold mb-4">Add Balance</h2>
-          <PeriodDropdownComponent />
+          <h2 className="text-lg font-bold mb-4">Edit&nbsp;Initial&nbsp;Balance</h2>
+          {/* <PeriodDropdownComponent />  */}
+          {/* balance is only accessed once right? */}
         </div>  
         <div className="flex justify-between space-x-2">
           <Input value={balanceValue} onChange={handleInputChange} type="amount" placeholder="Enter Amount" className="w-[82%] border-2 z-0 border-gray-400 text-gray-400"/>
