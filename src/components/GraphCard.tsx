@@ -1,35 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Graph from './Graph';
-// import { Data } from '../types';
 
-const GraphCard: React.FC = () => {
-                          //^
-  //get data variable passed in (construct a data variable in other files)
+interface GraphCardProps {
+  data: any[];
+}
 
-  const [containerWidth, setContainerWidth] = useState(0);
+const GraphCard: React.FC<GraphCardProps> = ({ data }) => {
+  const balanceHistory = data.filter(item => item.required === -1).map(item => ({
+    date: item.date,
+    amount: item.amount,
+  }));
 
-  const containerRef = React.createRef<HTMLDivElement>();
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const observer = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-          setContainerWidth(entry.contentRect.width);
-        }
-      });
-      observer.observe(containerRef.current);
-      return () => observer.disconnect();
-    }
-  }, []);
+  const spendingHistory = data.filter(item => item.required !== -1).map(item => ({
+    date: item.date,
+    amount: -item.amount,
+  }));
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4" ref={containerRef}>
+    <div className="bg-white rounded-lg shadow-md p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex flex-col items-center">
           <h2 className="text-xl font-bold mb-4">Balance & Spending History</h2>
           <Graph 
-            // data={data} 
-            width={Math.min(containerWidth - 100, 700)} 
+            bHistory={balanceHistory} 
+            sHistory={spendingHistory} 
+            width={700} 
             height={200} 
           />
         </div>

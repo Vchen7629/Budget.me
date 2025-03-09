@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
 
-const GoalDisplay: React.FC = () => {
+const GoalDisplay: React.FC<{ data: any }> = ({ data }) => {
   const [goalValue, setGoalValue] = useState("")
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -23,7 +23,7 @@ const GoalDisplay: React.FC = () => {
 
         {/* have savings goal amount and savings goal progress here */}
 
-        <h2 className="text-xl font-bold mb-4 text-red-500">$999,999,999</h2>
+        <h2 className="text-xl font-bold mb-4 text-red-500">$999</h2>
         {/* green or red depending on over or under amount */}
       </div>
       
