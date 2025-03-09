@@ -153,11 +153,23 @@ def sendChat():
 def recieveResponse():
     return jsonify({'response': geminiChatInstance.sendResponse()})
 
-@app.route('/updateData', methods=['POST'])
-def updateData():
+@app.route('/updateDocs', methods=['POST'])
+def updateDocs():
     docs = databaseInstance.pullData("Auth")
+
+    geminiChatInstance.updateDocs(docs)
+    return jsonify({'status': 'success', 'message': 'Docs successfully updated'}), 200
+
+@app.route('/updateInitBal', methods=['POST'])
+def updateInitBal():
     initBal = request.form.get('initBal')
+
+    geminiChatInstance.updateBalance(initBal)
+    return jsonify({'status': 'success', 'message': 'data successfully updated'}), 200
+
+@app.route('/updateSpendLimit', methods=['POST'])
+def updateSpendLimit():
     spendLimit = request.form.get('spendLimit')
 
-    geminiChatInstance.updateData(docs, initBal, spendLimit)
+    geminiChatInstance.updateSpendingLimit(spendLimit)
     return jsonify({'status': 'success', 'message': 'data successfully updated'}), 200
