@@ -14,7 +14,7 @@ class GeminiChat:
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.chat = self.client.chats.create(model="gemini-2.0-flash")
         prompt = f'''You are a Budget.me, a budgeting service. You currently do not have your client's financial information yet.
-        You will recieve their initial balance and a list of their transactions. The "required" field has an integer that is 1 if an expenditure is likely required,
+        You will recieve their initial balance, spending limit, and a list of their transactions. The "required" field has an integer that is 1 if an expenditure is likely required,
     0 if it is likely not required, and -1 if it is a deposit/income. Based on this data, answer the client's questions
     in around 200 words.'''
         self.chat.send_message(prompt)
@@ -24,14 +24,14 @@ class GeminiChat:
     # prompts AI using the user's prompt
     def recievePrompt(self, text):
         self.recentChat = self.chat.send_message(text)
-        return self.recentChat
+        return self.recentChat.text
     
     def sendResponse(self):
-        return self.recentChat
+        return self.recentChat.text
 
     # prompts AI to update the data it is referencing for responses
-    def updateData(self, newDocs, newBal, spendingGoal):
-        prompt = f'''Your client's data has been updated. Their initial balance is now {newBal} USD, and their 
+    def updateData(self, newDocs, newBal, spendingLimit):
+        prompt = f'''Your client's data has been updated. Their initial balance is now {newBal} USD, their spending limit is now {spendingLimit} usd, and their 
         new transactions list is below. {newDocs} From now on, answer the client's questions based on their new data'''
         response = self.chat.send_message(prompt)
         return response.text
@@ -54,12 +54,10 @@ class GeminiChat:
 # 67cd3710cb754b8aa53bc533, 01-17-2024, Michael Kor Salary, 1554.0, -1
 # 67cd3710cb754b8aa53bc534, 01-18-2024, BOS Mastercard, -4000.0, 0'''
 
-# currChat = GeminiChat(data, 10000)
-# print(currChat.sendChat('who are you?'))
-# print(currChat.sendChat('what is their initial balance?'))
-# print(currChat.updateData(data, 100))
-# print(currChat.sendChat('what is their initial balance?'))
-# print(currChat.sendChat('how bad are my finances'))
+# currChat = GeminiChat()
+# print(currChat.recievePrompt('who are you?'))
+# print(currChat.recievePrompt('what is my initial balance?'))
+# print(currChat.updateData(data, 10000, 2000))
+# print(currChat.recievePrompt('what is my initial balance?'))
+# print(currChat.recievePrompt('give it to me straight doc, how bad are my finances?'))
 
-
-# parses a bank statement pdf into a csv file responseCSV.csv
